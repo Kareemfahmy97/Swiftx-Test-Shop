@@ -1,0 +1,81 @@
+
+.container{
+    background-color: white;
+    height: max-content;
+    width: 100%;
+    border-radius: 15px;
+    text-align: left;
+    transition: ease-in-out 100ms;
+    font-size: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.container:hover{
+    transform: scale(1.02);
+    z-index: 5;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
+}
+
+.productImg{
+    width: 100%;
+    object-fit: contain;
+    border-radius: 15px 15px 0 0;
+    display: block;
+    margin: auto;
+    transition: ease-in-out 150ms;
+}
+
+.details{
+    padding: 30px 20px;
+    position: relative;
+}
+
+.details h4{
+    font-size: 1.3em;
+}
+
+.details h5{
+    font-size: 1.1em;
+}
+
+.details b{
+    font-size: 0.7em;
+}
+
+.addToBag{
+    position: absolute;
+    top: -40px;
+    right: 10px;
+    border-radius: 100%;
+    border: none;
+    padding: 3%;
+    transition: ease-in-out 80ms;
+    cursor: pointer;
+    opacity: 0.8;
+    background-color: var(--primary);
+
+}
+
+.addToBag:hover{
+    opacity: 1;
+    background-color: var(--primary);
+    transform: scale(1.1);
+}
+
+.addToBag:active{
+    transform: scale(1);
+}
+.addtocart{
+    position: absolute;
+    top: -20px;
+    right: 20px;
+    transition: ease-in-out 80ms;
+    cursor: pointer;
+}
+.addtocart:hover{
+    opacity: 0.95;
+    transform: scale(1.1);
+
+}

@@ -1,12 +1,37 @@
 import React from 'react';
 import './App.css';
+import ProductDetails from './components/ProductDetail';
+import './App.css';
+import {  BrowserRouter, Route, Router, Routes } from "react-router-dom";
 
+import NewNavbar from './components/NavBar/NewNavBar';
+import MyHome from './components/Home/MyHome';
+import { useAppSelector } from "./app/hooks";
+import { selectProduct } from "./features/products/productSlice";
+import MiniCart from './components/Cart/MiniCart';
 
-function App() {
+const App:React.FC = () => {
+  const myProductState = useAppSelector(selectProduct);
+  const myCurrentId = myProductState.currentProductId;
+ 
+  // const [id, setId] = React.useState("apple-iphone-12-pro");
+  // const handleIdChange = React.useCallback((newId: any) => {
+  //   setId(newId);
+  // }, []);
   return (
-    <div className="App">
-      Hello
-    </div>
+    <BrowserRouter>
+      <NewNavbar />
+      <Routes>
+        <Route path="/" element={<MyHome />} />
+      
+        <Route
+          path={`/product/${myCurrentId}`}
+          element={<ProductDetails id={myCurrentId} />}
+        />
+      </Routes>
+      {/* <Navbarito /> */}
+      <MyHome />
+    </BrowserRouter>
   );
 }
 
