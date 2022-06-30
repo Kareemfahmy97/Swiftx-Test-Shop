@@ -1,6 +1,6 @@
 # POINTS STILL IN DEVELOPMENT PROCES
 
-#### Still working on those points
+#### Still working on :
 
 - PDP Layout.
 
