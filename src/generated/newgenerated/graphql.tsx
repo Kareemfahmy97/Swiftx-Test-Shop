@@ -71,6 +71,23 @@ export type Product = {
   prices: Array<Price>;
 };
 
+export type NewProduct = {
+  __typename?: "Product";
+  attributes?: Maybe<Array<Maybe<AttributeSet>>>;
+  brand: Scalars["String"];
+  category: Scalars["String"];
+  description: Scalars["String"];
+  image: string;
+  artificialId : number;
+  gallery?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  id: Scalars["String"];
+  inStock?: Maybe<Scalars["Boolean"]>;
+  name: Scalars["String"];
+  prices: Array<Price>;
+  productTotalQuantity: number;
+  currentPrice: Price;
+  allAttributes: {} | string | null;
+};
 export type Query = {
   __typename?: 'Query';
   categories?: Maybe<Array<Maybe<Category>>>;

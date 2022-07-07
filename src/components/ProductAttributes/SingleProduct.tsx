@@ -4,20 +4,19 @@ import React, {  useState } from "react";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import { selectCategory } from "../../features/categories/categorySlice";
 import { selectCurrency } from "../../features/currency/currencySlice";
-import { useFetchAllCategoriesQuery, Price ,useFetchAllCurrenciesQuery, Product} from "../../generated/newgenerated/graphql";
+import { useFetchAllCategoriesQuery, Price ,useFetchAllCurrenciesQuery, NewProduct} from "../../generated/newgenerated/graphql";
 import { setActiveProductId} from '../../features/products/productSlice';
 
 import addtocart from '../Assests/addtocart.png';
 import { addItemToCart, selectCartState } from "../../features/cart/cartSlice";
 
 interface Props {
-  productData: Product;
+  productData: NewProduct;
   price: Price;
 }
 
 
 export const SingleProduct: React.FC<Props> = ({productData, price}) => {
-
     const [isFocus , setIsFocus] = useState(false);
     const myCategoriesState = useAppSelector(selectCategory);
     const myCurrenciesState = useAppSelector(selectCurrency);
@@ -37,21 +36,9 @@ export const SingleProduct: React.FC<Props> = ({productData, price}) => {
     if(currencyError || !currencyData){
         return <div>ERROR CURRENCY</div>
     }
-    const createProductObeject = () => {
-      const myProduct = {
-        name: productData.name,
-        Image: productData.gallery![0],
-        brand: productData.brand,
-        id: productData.id,
-        quantity: 1,
-        category: productData.category,
-        productId: Math.floor(Math.random()*1000),
-        attributes: {},
-        prices: price,
-        allAttributes: productData.attributes,
-      }
 
-    }
+
+    
 
     
     return (
@@ -62,7 +49,7 @@ export const SingleProduct: React.FC<Props> = ({productData, price}) => {
       > 
       <Link to={`/product/${productData.id}`}>
         <img
-          src={productData?.gallery![0]!}
+          src={productData.image}
           height="300"
           width="auto"
           alt={productData?.name}

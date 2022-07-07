@@ -1,5 +1,4 @@
-import React, { Component, useEffect, useCallback, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import { selectCategory } from "../../features/categories/categorySlice";
 import {
@@ -10,24 +9,27 @@ import {
   useFetchAllCategoriesQuery,
   useFetchAllCurrenciesQuery,
 } from "../../generated/newgenerated/graphql";
-import { useProductListQuery } from "../../generated/graphql";
 import { updateActiveCategory } from "../../features/categories/categorySlice";
 import classes from "./MyNavBar.module.css";
-import Currency from '../Assests/Currency.png';
 import Cart from '../Assests/Cart.png';
-import cartSlice, { selectCartState } from "../../features/cart/cartSlice";
+import  { selectCartState, modifyCartItemQuantity } from "../../features/cart/cartSlice";
 import MiniCart from "../Cart/MiniCart";
+
+
 
 const NewNavbar: React.FC = () => {
 
-
- 
   const myCategoriesState = useAppSelector(selectCategory);
   const myCurrenciesState = useAppSelector(selectCurrency);
   const myCartState = useAppSelector(selectCartState);
   const [currencyOpened, setCurrencyOpened] = useState(false);
   const [isCartOpened, setIsCartOpened] = useState(false);
-
+  const dispatch = useAppDispatch();
+  
+   useEffect(() => {
+     dispatch(modifyCartItemQuantity(null));
+   }, [dispatch, myCartState]);
+   
   const handleCurrencySwitcher =() => {
     setCurrencyOpened(prevState => !prevState);
   }
@@ -35,9 +37,7 @@ const NewNavbar: React.FC = () => {
     setIsCartOpened(prevState => !prevState);
   }
 
-  
 
-  const dispatch = useAppDispatch();
   const {
     data: currencyData,
     error: currencyError,
@@ -66,7 +66,8 @@ const NewNavbar: React.FC = () => {
   const handleCurrency = (e: any) => {
     dispatch(setActiveCurrency(e.target.value));
   };
-
+  const myCartProducts = myCartState.cartProducts;
+  
   return (
     <nav className={classes.navbar}>
      
@@ -113,15 +114,15 @@ const NewNavbar: React.FC = () => {
           onClick={() => showMiniCart()}
         >
           <img src={Cart} alt="shopping bag icon" />
-          {myCartState.totalQuantity === 0 ? '' : 
+          {myCartState.cartTotalQuantity === 0 ? '' : 
           <span className={classes.badge}>
-            {myCartState.totalQuantity}
+            {myCartState.cartTotalQuantity}
           </span>
           
           }
         </button>
       </div>
-      {isCartOpened && <MiniCart />}
+      {isCartOpened && <MiniCart myCartProducts={myCartProducts}/>}
 
     </nav>
   );

@@ -29,8 +29,7 @@ const App:React.FC = () => {
           element={<ProductDetails id={myCurrentId} />}
         />
       </Routes>
-      {/* <Navbarito /> */}
-      <MyHome />
+      
     </BrowserRouter>
   );
 }

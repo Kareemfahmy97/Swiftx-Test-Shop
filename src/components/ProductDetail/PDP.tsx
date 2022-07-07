@@ -4,6 +4,7 @@ import { selectCategory } from "../../features/categories/categorySlice";
 import { selectCurrency } from "../../features/currency/currencySlice";
 import { PdpQuery } from "../../generated/graphql";
 import { addItemToCart } from "../../features/cart/cartSlice";
+import { useLocation } from "react-router-dom";
 import "./styles.css";
 
 interface Props {
@@ -12,7 +13,9 @@ interface Props {
 
 const className = "ProductDetails";
 const ProductDetails: React.FC<Props> = ({ data }) => {
-
+  const location = useLocation();
+  const productId = location.pathname.split("/")[2];
+  console.log(productId);
   const myCurrencyState = useAppSelector(selectCurrency);
   const dispatch = useAppDispatch();
     if (!data.product) {
@@ -120,7 +123,6 @@ const ProductDetails: React.FC<Props> = ({ data }) => {
         <div className="box">
           <button
             className="addtoCart"
-            onClick={() => dispatch(addItemToCart(data.product))}
           >
             Add to cart
           </button>

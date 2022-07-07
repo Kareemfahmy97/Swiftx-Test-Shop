@@ -1,11 +1,14 @@
 
-import React from "react";
+import React, { useEffect} from "react";
 
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import { selectCategory } from "../../features/categories/categorySlice";
 import { selectCurrency } from "../../features/currency/currencySlice";
-import { useFetchAllCategoriesQuery, useFetchAllCurrenciesQuery, useFetchProductsByCategoryQuery } from "../../generated/newgenerated/graphql";
-
+import { NewProduct, useFetchAllCategoriesQuery, useFetchAllCurrenciesQuery, useFetchProductsByCategoryQuery } from "../../generated/newgenerated/graphql";
+import {
+  selectCartState,
+  modifyCartItemQuantity,
+} from "../../features/cart/cartSlice";
 import classes from './MyHome.module.css';
 import SingleProduct from "../ProductAttributes/SingleProduct";
 
@@ -14,12 +17,18 @@ const MyHome: React.FC = () => {
 
  const myCategoriesState = useAppSelector(selectCategory);
     const myCurrenciesState = useAppSelector(selectCurrency);
-
-    const dispatch = useAppDispatch();
+      const myCartState = useAppSelector(selectCartState);
+  const dispatch = useAppDispatch();
     const {data: currencyData , error: currencyError, loading: currencyLoading } = useFetchAllCurrenciesQuery({});
     const { data: categoriesData, error: categoriesError, loading: categoriesLoading } = useFetchAllCategoriesQuery({});
 
- 
+
+    // const myCartStateChanged = useCallback(()=>{
+    //  dispatch(modifyCartItemQuantity(null));
+
+    // }, [dispatch])
+
+
   //     ******* FETCH DATA BY CATEGORY NAME *******
       const {
   data: productsByCategory,
@@ -49,11 +58,30 @@ const MyHome: React.FC = () => {
     }
     if(productsByCategory){
       //    **********   MAP PRODUCTS TO GET EACH PRODUCT - DATA - PRICE  ********
+            
       return(
         productsByCategory.category?.products.map(product => {
+          
           const currentPriceState = product?.prices.find(currency => currency.currency.label === myCurrenciesState.activeCurrency);
           //      ***********  PASSING DATA TO EVERY PRODUCT *******
-          return <SingleProduct productData={product!} price={currentPriceState!} key={product?.id!}/>
+            
+          const myProduct: NewProduct = {
+            name: product?.name!,
+            image: product?.gallery![0]!,
+            brand: product?.brand!,
+            inStock: product?.inStock!,
+            id: product?.id!,
+            productTotalQuantity: 1,
+            category: product?.category!,
+            artificialId: Math.floor(Math.random() * 1000),
+            attributes: product?.attributes,
+            description: product?.description!,
+            prices: product?.prices!,
+            currentPrice: currentPriceState!,
+            allAttributes: {},
+          };
+          
+          return <SingleProduct productData={myProduct!} price={currentPriceState!} key={product?.id!}/>
         })
         )
     }

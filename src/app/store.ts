@@ -11,6 +11,7 @@ export const store = configureStore({
     shopProduct: productSlice,
     shopCart: cartReducer,
   },
+  // middleware: (getDefaultMiddleware)  => getDefaultMiddleware().concat()
 });
 
 export type AppDispatch = typeof store.dispatch;

@@ -3,8 +3,6 @@ import { RootState } from '../../app/store';
 import { ProductListQuery } from "../../generated/graphql";
 
 
-
-
 export interface CategoryState {
   categories: string[]
   data: ProductListQuery[]
