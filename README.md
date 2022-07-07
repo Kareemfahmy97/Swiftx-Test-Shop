@@ -1,15 +1,16 @@
 # POINTS STILL IN DEVELOPMENT PROCES
 
-## Still working on :
+#### Still working on :
 
-#### PDP Layout.
+- PDP Layout.
 
-#### Home Layout.
+- Home Layout.
 
-#### Navbar Styling to meet exactly the requested task's design.
+- Navbar Styling to meet exactly the requested task's design.
 
-#### Full Cart Page ( View Bag Page )
+- Full Cart Page ( View Bag Page ) .
 
-#### Cart auto closing if user click outside it.
+- Cart auto closing if user click outside it.
 
-#### Handling Attributes.
+- Handling Attributes. 
+
