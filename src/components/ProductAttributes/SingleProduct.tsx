@@ -47,14 +47,14 @@ export const SingleProduct: React.FC<Props> = ({productData, price}) => {
         onMouseEnter={() => setIsFocus(true)}
         onMouseLeave={()=> setIsFocus(false)}
       > 
-      <Link to={`/product/${productData.id}`}>
+      <Link to={`/product/${productData.id}`} key={productData.id}>
         <img
           src={productData.image}
           height="300"
           width="auto"
+          key={productData.id}
           alt={productData?.name}
           className={classes.productImg}
-          onClick={() => dispatch(setActiveProductId(productData?.id))}
         />
       </Link>
         <div className={classes.details}>

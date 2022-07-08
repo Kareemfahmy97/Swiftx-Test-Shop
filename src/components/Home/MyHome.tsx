@@ -11,6 +11,7 @@ import {
 } from "../../features/cart/cartSlice";
 import classes from './MyHome.module.css';
 import SingleProduct from "../ProductAttributes/SingleProduct";
+import { Link, useLocation } from "react-router-dom";
 
 
 const MyHome: React.FC = () => {
@@ -19,8 +20,10 @@ const MyHome: React.FC = () => {
     const myCurrenciesState = useAppSelector(selectCurrency);
       const myCartState = useAppSelector(selectCartState);
   const dispatch = useAppDispatch();
-    const {data: currencyData , error: currencyError, loading: currencyLoading } = useFetchAllCurrenciesQuery({});
-    const { data: categoriesData, error: categoriesError, loading: categoriesLoading } = useFetchAllCategoriesQuery({});
+  const location = useLocation();
+  const currentCategoryFromLocation = location.pathname.split("/")[1];
+    // const {data: currencyData , error: currencyError, loading: currencyLoading } = useFetchAllCurrenciesQuery({});
+    // const { data: categoriesData, error: categoriesError, loading: categoriesLoading } = useFetchAllCategoriesQuery({});
 
 
     // const myCartStateChanged = useCallback(()=>{
@@ -31,25 +34,16 @@ const MyHome: React.FC = () => {
 
   //     ******* FETCH DATA BY CATEGORY NAME *******
       const {
-  data: productsByCategory,
-  error: errorProductsByCategory,
-  loading: loadingProductsByCategory,
-} = useFetchProductsByCategoryQuery({
-  variables: {
-    title: String(myCategoriesState.activeCategory),
-  },
-});
+        data: productsByCategory,
+        error: errorProductsByCategory,
+        loading: loadingProductsByCategory,
+      } = useFetchProductsByCategoryQuery({
+        variables: {
+          title: String(currentCategoryFromLocation),
+        },
+      });
   const getCurrentProducts= () => {
-    if (categoriesLoading || currencyLoading) {
-      return <div>Loading Categories and Currency...</div>;
-    }
 
-    if (categoriesError || !categoriesData ) {
-      return <div>ERROR CATEGORIES</div>;
-    }
-    if(currencyError || !currencyData){
-        return <div>ERROR CURRENCY</div>
-    }
     if(errorProductsByCategory || !productsByCategory){
       return <div>NO DATA FETCHED!</div>
     }
@@ -81,7 +75,10 @@ const MyHome: React.FC = () => {
             allAttributes: {},
           };
           
-          return <SingleProduct productData={myProduct!} price={currentPriceState!} key={product?.id!}/>
+          return (
+            <SingleProduct productData={myProduct!} price={currentPriceState!} key={product?.id!}/>
+          
+          )
         })
         )
     }
@@ -93,7 +90,7 @@ const MyHome: React.FC = () => {
       <div className={classes.container}>
         {!! productsByCategory && (
           <>
-            <h1>{myCategoriesState.activeCategory.toUpperCase()}</h1>
+            <h1>{currentCategoryFromLocation.toUpperCase()}</h1>
 
             <div className={classes.productsList}>{getCurrentProducts()}</div>
           </>

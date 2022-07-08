@@ -25,9 +25,11 @@ export const categorySlice = createSlice({
   name: "categories",
   initialState,
   reducers: {
+    fetchAllCategories:(state, action: PayloadAction<string>) => {
+      
+    },
     updateActiveCategory: (state, action: PayloadAction<string>) => {
-   
-        state.activeCategory = action.payload;
+      state.activeCategory = action.payload;
     },
   },
 });
