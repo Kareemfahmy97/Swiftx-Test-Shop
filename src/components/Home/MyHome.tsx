@@ -88,13 +88,11 @@ const MyHome: React.FC = () => {
 
     return (
       <div className={classes.container}>
-        {!! productsByCategory && (
-          <>
-            <h1>{currentCategoryFromLocation.toUpperCase()}</h1>
+          
+            <p style={{fontSize:'24px', fontWeight:'600'}}>{currentCategoryFromLocation.toUpperCase()}</p>
 
             <div className={classes.productsList}>{getCurrentProducts()}</div>
-          </>
-        )}
+          
       </div>
     );
   

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './App.css';
 import ProductDetails from './components/ProductDetail/PDP';
 import {  BrowserRouter, Route, Router,Navigate, Routes, useLocation } from "react-router-dom";
@@ -16,12 +16,15 @@ const App:React.FC = () => {
   // const handleIdChange = React.useCallback((newId: any) => {
   //   setId(newId);
   // }, []);
+  useEffect(()=>{
+    
+  },[Navigate])
   return (
     <BrowserRouter>
       <NewNavbar />
       <Routes>
 
-        {["/", "/all", "/clothes", "/tech"].map((path) => (
+        {[ "/all", "/clothes", "/tech"].map((path) => (
           <Route path={path} key={path} element={<MyHome />} />
         ))}
         <Route path="/cart" element={<CartPage />}/>
@@ -31,7 +34,7 @@ const App:React.FC = () => {
         />
            <Route
         path="*"
-        element={<Navigate to="/" replace />}
+        element={<Navigate to="/all" replace />}
     />
       </Routes>
     </BrowserRouter>

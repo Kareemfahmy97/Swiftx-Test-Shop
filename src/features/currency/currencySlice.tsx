@@ -9,6 +9,7 @@ export interface CurrencyState {
   categories: string[];
   data: FetchAllCurrenciesQuery[];
   activeCurrency: string;
+  activeSymbol: string;
   status: string;
   value: number;
 }
@@ -18,6 +19,7 @@ export const CurrencySlice = createSlice({
   initialState: {
     currencies: [],
     activeCurrency: "USD",
+    activeSymbol: "$",
     loading: "",
   },
   reducers: {
@@ -27,9 +29,15 @@ export const CurrencySlice = createSlice({
         activeCurrency: action.payload,
       };
     },
+    setActiveSymbol: (state, action: PayloadAction<string>) => {
+      return {
+        ...state,
+        activeSymbol: action.payload,
+      };
+    },
   },
 });
 export const selectCurrency = (state: RootState) => state.shopCurrency;
 
-export const { setActiveCurrency } = CurrencySlice.actions;
+export const { setActiveCurrency, setActiveSymbol } = CurrencySlice.actions;
 export default CurrencySlice.reducer;

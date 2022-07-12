@@ -1,0 +1,187 @@
+.proudctDetails {
+    display: flex;
+    padding: 0px 26px;
+    justify-content: space-between;
+}
+
+/* IMAGES */
+.imagesContainer {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    line-height: .7rem;
+    padding: 30px 0px;
+}
+
+.allSmallImages {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.smallImage {
+    height: 9vh;
+    object-fit: contain;
+    padding-bottom: .8rem;
+    cursor: pointer;
+}
+
+.mainImage {
+    height: 65vh;
+    width: 40vw;
+    object-fit: contain;
+    padding: 0px 30px;
+}
+
+
+
+/* ATTRIBUTES */
+
+.cartData{
+    width:100%;
+}
+
+.label,
+.attributesTitle{
+    text-transform: uppercase;
+    font-size: large;
+    margin-top: 20px;
+    font-weight: 700;
+    margin-bottom: -17px;
+}
+.allAttributes {
+    margin: 43px 0 40px;
+}
+
+.attributes {
+    margin-bottom: 20px;
+}
+
+.attributesTitle {
+    margin-bottom: 8px;
+}
+
+.attributesList {
+    display: flex;
+    align-items: center;
+    margin: 8px 0;
+}
+
+.addButton {
+    width: 20vw;
+    text-align: center;
+    background-color: #499c34;
+    padding: 16px 25px;
+    margin-right: 15px;
+    margin-bottom: 9px;
+    margin-top: 30px;
+    transition: all 50ms ease-in-out;
+    color: white;
+    cursor: pointer;
+}
+
+
+.addButton:hover{
+    color: #222;
+    background-color: 76af68;
+}
+
+
+.priceTag {
+    padding-top: 25px;
+    display: flex;
+    align-items: center;
+    font-size: large;
+    font-weight: 500;
+}
+
+
+.description {
+    font-family: 'Roboto';
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 159.96%;
+    max-height: 200px;
+    overflow-y: auto;
+    padding-right: 5px;
+}
+
+.description h1 {
+    margin-top: 0.67em;
+    margin-bottom: 0.67em;
+    line-height: normal;
+}
+
+.description h3 {
+    margin-top: 1em;
+    margin-bottom: 1em;
+    line-height: normal;
+}
+
+.description p {
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+.attributesText {
+    width: 63px;
+    height: 45px;
+    margin-right: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #1D1F22;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 18px;
+    letter-spacing: 0.05em;
+    font-family: 'Source Sans Pro', sans-serif;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+
+:checked+label .attributesText {
+    background: #1D1F22;
+    color: #FFFFFF;
+}
+
+
+:disabled+label .attributesText {
+    border: 1px solid #A6A6A6;
+    color: #A6A6A6;
+    cursor: default;
+}
+
+.attributesColor {
+    width: 32px;
+    height: 32px;
+    margin-right: 8px;
+    cursor: pointer;
+    box-sizing: border-box;
+    /* border: 1px solid black; */
+}
+
+
+:checked+label .attributesColor {
+    box-shadow:
+        0 0 0 1px #FFFFFF,
+        0 0 0 2px #5ECE7B;
+}
+
+
+.warning,
+.success {
+    height: 15px;
+    margin-bottom: 25px;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.red {
+    color: red;
+}
+
+.green {
+    color: green;
+}

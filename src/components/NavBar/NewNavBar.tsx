@@ -4,6 +4,7 @@ import { selectCategory } from "../../features/categories/categorySlice";
 import {
   selectCurrency,
   setActiveCurrency,
+  setActiveSymbol
 } from "../../features/currency/currencySlice";
 import {
   useFetchAllCategoriesQuery,
@@ -29,8 +30,8 @@ const NewNavbar: React.FC = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(modifyCartItemQuantity(null));
-  }, [dispatch, myCartState]);
+    dispatch(modifyCartItemQuantity(myCurrenciesState.activeCurrency));
+  }, [dispatch, myCartState, myCurrenciesState.activeCurrency]);
 
   const handleCurrencySwitcher = () => {
     setCurrencyOpened((prevState) => !prevState);
@@ -40,13 +41,13 @@ const NewNavbar: React.FC = () => {
   };
   const location = useLocation();
   const productIdFromLocation = location.pathname.split("/")[2];
- 
+
   const {
     data: currencyData,
     error: currencyError,
     loading: currencyLoading,
   } = useFetchAllCurrenciesQuery({});
-   const {
+  const {
     data: categoriesData,
     error: categoriesError,
     loading: categoriesLoading,
@@ -65,6 +66,8 @@ const NewNavbar: React.FC = () => {
 
   const handleCurrency = (e: any) => {
     dispatch(setActiveCurrency(e.target.value));
+    const myCurrency = currencyData.currencies?.find(c=> c?.label===e.target.value);
+    dispatch(setActiveSymbol(myCurrency?.symbol!));
   };
   const myCartProducts = myCartState.cartProducts;
 
@@ -79,7 +82,10 @@ const NewNavbar: React.FC = () => {
                   to={`/${category.name}`}
                   key={i}
                   style={{ textDecoration: "none", color: "inherit" }}
-                  onClick={() => dispatch(updateActiveCategory(category.name!))}
+                  onClick={() => {
+                    dispatch(updateActiveCategory(category.name!));
+                    if(isCartOpened){showMiniCart();}
+                  }}
                 >
                   <div className={classes.CategoryItem}>
                     {category.name?.toUpperCase()}

@@ -6,6 +6,9 @@ import {
 } from "../../generated/newgenerated/graphql";
 import { RootState } from "../../app/store";
 
+
+
+
 export interface CartState {
   cartTotalQuantity: number;
   cartProducts: NewProduct[];
@@ -23,6 +26,7 @@ const initialState: CartState = {
 };
 
 export const cartSlice = createSlice({
+  
   name: "cart",
   initialState,
   reducers: {
@@ -73,10 +77,11 @@ export const cartSlice = createSlice({
 
     },
     modifyCartItemQuantity: (state, action) => {
+
       let {total, quantity}=state.cartProducts.reduce((cartTotal, cartProduct)=>{
-        const {currentPrice ,productTotalQuantity} = cartProduct;
-        
-        const itemTotal = currentPrice.amount * productTotalQuantity;
+        const {prices ,productTotalQuantity} = cartProduct;
+        const currentPrice = prices.find(item=> item.currency.label ===  action.payload)
+        const itemTotal = currentPrice?.amount! * productTotalQuantity;
 
         cartTotal.total += itemTotal;
         cartTotal.quantity += productTotalQuantity;

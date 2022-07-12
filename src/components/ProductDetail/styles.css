@@ -66,7 +66,14 @@ main section {
   grid-column: 1;
   grid-row: 1/6;
   height: 100%;
-  overflow: scroll;
+   overflow-y: scroll;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; 
+}
+
+#product-imgs::-webkit-scrollbar { /* WebKit */
+    width: 0;
+    height: 0;
 }
 /* .img-select{
   display: flex;
@@ -90,24 +97,25 @@ main section {
 } */
 .box:nth-child(2) {
   /* background-color: rgb(219, 227, 227); */
-    background-color: rgb(255, 255, 255);
-    height: 100%;
-
+    min-height: 65vh;
+    min-width: 30vw;
+  object-fit: contain;
   grid-row: 1/6;
   grid-column: 2;
 }
-
+/* 
 .box:nth-child(2) img{
-  height: 100%;
+  height: 65vh;
   object-fit: cover;
-}
+  background-color: saddlebrown;
+} */
 
  .box:nth-child(3) {
   justify-content: flex-start;
   align-items: flex-start;
   padding-top: 0;
   /* background-color: rgba(177, 114, 210, 0.722); */
-    background-color: rgb(255, 255, 255);
+    background-color: rgb(236, 236, 236);
 
   grid-row: 1;
   grid-column: 3;
@@ -191,18 +199,66 @@ button:focus {
 .box:nth-child(4) button:active {
   background-color: rgba(27, 27, 27, 0.904);
 }
-.addtoCart{
-  margin: 20px auto;
+.addToCart{
+  /* margin: 20px auto;
     width: 100%;
-    background-color: #5ECE7B;
+    background-color: #;
     color: white;
     font-weight: 600;
 
 
-    padding: 16px 32px;
+    padding: 16px 32px; */
 
+        width: 20vw;
+    text-align: center;
+    background-color: #5ECE7B;
+    padding: 16px 25px;
+    margin-right: 15px;
+    margin-bottom: 9px;
+    margin-top: 30px;
+    transition: all 50ms ease-in-out;
+    color: white;
     cursor: pointer;
 }
+
+.addToCart:hover{
+    color: #222;
+    background-color: #499c34;
+}
+.addToCart:focus-within{
+    background-color: #499c34;
+
+}
+.attributesColor {
+    width: 32px;
+    height: 32px;
+    margin-right: 8px;
+    cursor: pointer;
+    box-sizing: border-box;
+    /* border: 1px solid black; */
+}
+
+.attributesText {
+    width: 63px;
+    height: 45px;
+    margin-right: 12px;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #1D1F22;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 18px;
+    letter-spacing: 0.05em;
+    font-family: 'Source Sans Pro', sans-serif;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+
+.addToCart:visited{
+    color: #222;
+    background-color: red;
+}
+
 /* .addtoBag{
     margin: 20px auto;
     width: 80%;

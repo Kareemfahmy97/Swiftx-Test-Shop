@@ -19,7 +19,7 @@ const myCurrencyState = useAppSelector(selectCurrency)
         <div
           style={{ height: "70vh", overflowX: "hidden", overflowY: "scroll" }}
         >
-          {myCartProducts.map((item: NewProduct) => {
+          {myCartProducts.map((item: NewProduct, index) => {
             const currentCurrencyPrice = item.prices.find(
               (currency) =>
                 currency.currency.label === myCurrencyState.activeCurrency
@@ -31,6 +31,7 @@ const myCurrencyState = useAppSelector(selectCurrency)
                 id={item.id}
                 data={item}
                 price={currentCurrencyPrice!}
+                myIndex={index}
                 myCartProducts={myCartProducts}
               />
             );

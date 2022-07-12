@@ -1,57 +1,107 @@
+.toggleCart{
+        opacity: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 32px 16px;
+    position: absolute;
+    min-height: 400px;
+    max-height: 500px;
+    margin-right: 5%;
+    width: 350px;
+    right: 5%;
+    top: 100%;
+    overflow: hidden;
+    z-index: 999;
+    text-align: left;
+    /* transition: opaciity 150ms ease-in-out; */
+    background-color: rgb(255, 255, 255);
 
-
-.backdrop{
-    position: fixed;
-    top: 0;
-    min-height: 100vh;
-    width: 100vw;
-    z-index: -1;
-    background-color: rgba(0, 0, 0, 0.45);
 }
-
+.bagItems{
+    align-self: flex-start;
+    font-weight: 600;
+    font-size: 18px;
+    margin-top: -5%;
+}
 .minibag{
-    position: absolute;
-    width: 50%;
-    top: 0;
-    height: 750px;
-    color: black;
-    margin: 10px auto;
-    transform: scale(0.7);
-    background-color: white;
-    border-radius: 10px;
+    position: relative;
+    width: 100%;
+    margin: 20px auto;
+    /* background-color: rgb(177, 171, 171); */
     align-items: center;
-    position: absolute;
-width: 500px;
-height: 700px;
-right: 35%;
-top: -8%;
+    overflow-y: scroll;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; 
+    
+/* right: 35%;
+bottom: 20px; */
+}
+.minibag::-webkit-scrollbar { /* WebKit */
+    width: 0;
+    height: 0;
 }
 
 .items{
     margin: 20px auto;
-    height: 500px;
+    height: 750px;
     overflow-y: scroll;
 }
 .buttonContainer{
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    justify-content: space-between;
+}
+.priceSection{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 18px;
+    margin-bottom: 15px;
+    padding: 0;
 }
 .checkOut{
-    width: 40%;
-    height: 50px;
+    height: 45px;
     background: #5ECE7B;
-    font-size: x-large;
-    margin-right: 1rem;
-    align-self: center;
+    /* align-self: center; */
     color: white;
-    align-items: center;
+    text-transform: uppercase;
+    border: 0;
+    font-family: 'Raleway';
+font-style: normal;
+font-weight: 600;
+font-size: 14px;
+line-height: 120%;
+width: 140px;
+text-align: center;
+
+    /* align-items: center; */
 }
 .showFullCart{
-       width: 40%;
-    height: 50px;
-    margin-right: 1rem;
+    height: 45px;
     color: black;
     background: white;
-    font-size: x-large;
+    border: 1px solid;
+    font-family: 'Raleway';
+text-align: center;
+
+    /*  
+font-size: 14px;
+font-weight: 600;
+line-height: 17px;
+letter-spacing: 0em;
+text-align: center; */
+font-family: 'Raleway';
+font-style: normal;
+font-weight: 600;
+font-size: 14px;
+line-height: 120%;
+    text-transform: uppercase;
+width: 140px;
+
+    /* align-self: center;
+    align-items: center; */
+
 }

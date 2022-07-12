@@ -45,32 +45,31 @@ export const SingleProduct: React.FC<Props> = ({productData, price}) => {
       <div
         className={classes.container}
         onMouseEnter={() => setIsFocus(true)}
-        onMouseLeave={()=> setIsFocus(false)}
-      > 
-      <Link to={`/product/${productData.id}`} key={productData.id}>
-        <img
-          src={productData.image}
-          height="300"
-          width="auto"
-          key={productData.id}
-          alt={productData?.name}
-          className={classes.productImg}
-        />
-      </Link>
-        <div className={classes.details}>
-          {/* Product name and price */}
-          <h4>{productData?.name}</h4>
-          {isFocus && (
+        onMouseLeave={() => setIsFocus(false)}
+      >
+        {isFocus && (
+          <img
+            src={addtocart}
+            className={classes.addtocart}
+            alt="addtocart"
+            onClick={() => dispatch(addItemToCart(productData))}
+          />
+        )}
+        <Link to={`/product/${productData.id}`} key={productData.id}>
+          <div className={classes.containerImg}>
             <img
-              src={addtocart}
-              className={classes.addtocart}
-              alt="addtocart"
-              onClick={() =>  dispatch(addItemToCart(productData))}
+              src={productData.image}
+              key={productData.id}
+              alt={productData?.name}
+              className={classes.productImg}
             />
-          )}
-          <h5>{`${price.currency.symbol}${price.amount}`}</h5>
+          </div>
+        </Link>
+        <div className={classes.containerDetails}>
+          {/* Product name and price */}
 
-          <hr />
+          <p>{productData?.name}</p>
+          <p className={classes.productPrice}>{`${price.currency.symbol}${price.amount}`}</p>
 
           {/* <ProductAttributes data={productData} /> */}
         </div>

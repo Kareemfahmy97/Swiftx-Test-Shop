@@ -25,53 +25,52 @@ export const MiniCart: React.FC<Props> = ({ myCartProducts, cartOpened }) => {
   // console.log(cartOpened); 
   const myCurrencyState = useAppSelector(selectCurrency);
   const myCartState = useAppSelector(selectCartState);
-
+            
 
   return (
-    <div >
+    <div className={classes.toggleCart}>
+        <div className={classes.bagItems}>
+          {`My Bag: ${myCartState.cartTotalQuantity} ${myCartState.cartTotalQuantity>1 ? 'items' : 'item'}`}
+        </div>
       <div className={classes.minibag}>
-        <h1 style={{ textAlign: "center" }}>
-          {myCartState.cartTotalQuantity} items
-        </h1>
-        <div className={classes.items}>
-          {myCartProducts.map((item: NewProduct) => {
-            const currentCurrencyPrice = item.prices.find(
-              (currency) =>
-                currency.currency.label === myCurrencyState.activeCurrency
-            );
+        {myCartProducts.map((item: NewProduct, index) => {
+          const currentCurrencyPrice = item.prices.find(
+            (currency) =>
+              currency.currency.label === myCurrencyState.activeCurrency
+          );
 
-
-            return (
-              <CartItem
-                key={item.id}
-                id={item.id}
-                data={item}
-                price={currentCurrencyPrice!}
-                myCartProducts={myCartProducts}
-              />
-            );
-          })}
-        </div>
-
-        <h2 style={{ textAlign: "center" }}>
-          Total Prices: 
+          return (
+            <CartItem
+              key={item.id}
+              id={item.id}
+              data={item}
+              myIndex={index}
+              price={currentCurrencyPrice!}
+              myCartProducts={myCartProducts}
+            />
+          );
+        })}
+      </div>
+      <div className={classes.priceSection}>
+        <p>Total</p>
+        <p>
+          {myCurrencyState.activeSymbol}
           {myCartState.cartTotalAmount.toFixed(2)}
-          {myCurrencyState.activeCurrency}
-        </h2>
+        </p>
+      </div>
 
-        <div className={classes.buttonContainer}>
-          <Link to="/cart" >
-            <button
-              className={classes.showFullCart}
-              onClick={() => cartOpened(false)}
-            >
-              View Bag
-            </button>
-          </Link>
-          <button className={classes.checkOut} onClick={() => cartOpened(false)}>Checkout</button>
-          
-
-        </div>
+      <div className={classes.buttonContainer}>
+        <Link to="/cart">
+          <button
+            className={classes.showFullCart}
+            onClick={() => cartOpened(false)}
+          >
+            View Bag
+          </button>
+        </Link>
+        <button className={classes.checkOut} onClick={() => cartOpened(false)}>
+          Check out
+        </button>
       </div>
     </div>
   );
