@@ -31,22 +31,14 @@ export const CartItem: React.FC<Props> = ({
     (item: NewProduct) => item.id === id
   );
   const [selectedButton, setSelectedButton] = useState<string[]>([""]);
-  // const productCurrentPrices = currentProduct?.prices.find(
-  //   (item) => item.currency.label === myCurrencyState.activeCurrency
-  // );
-  // const lengthOfAttributes = currentProduct?.attributes?.length;
-  // const myCurrentButton = useRef<HTMLInputElement>(null);
 
-  // const inputChangeHandler = (event: any) => {
-  //   console.log(event.target.value);
-
-  // }
   const handleSelected = (event: string) => {
     if (!selectedButton.includes(event)) {
       let splittedAttribute = event.split("+")[0];
       let attributeExist = selectedButton.some((element) => element.split('+')[0] === splittedAttribute);
         if(attributeExist){
-      setSelectedButton((prevSelected) => [...prevSelected.filter((s)=> s===event), event]);
+          const myRepeatedCategory = selectedButton.filter(s=> s.split('+')[0] !== splittedAttribute);
+      setSelectedButton([...myRepeatedCategory, event]);
         }else{
         setSelectedButton((prevSelected) => ([...prevSelected, event]));
         }
@@ -81,15 +73,6 @@ export const CartItem: React.FC<Props> = ({
                 <br />
                 {attribute?.items?.map((finalItem) => {
                   return (
-                    // <>
-                    //   <input
-                    //     type="radio"
-                    //     name={attribute.name!}
-                    //     id={`${attribute.id}${finalItem?.id}`}
-                    //     key={`${attribute.id}${finalItem?.id}`}
-                    //     ref={myCurrentButton}
-                    //     value={finalItem?.value!}
-                    //   />
                     <button
                       key={finalItem?.id}
                       value={finalItem?.value!}
@@ -122,11 +105,6 @@ export const CartItem: React.FC<Props> = ({
                                 finalItem?.id === "White"
                                   ? "Black"
                                   : finalItem?.value
-                                // selectedButton.includes(attribute.id+finalItem?.id)
-                                // ? 'red'
-                                // : `${ finalItem?.id === "White"
-                                //    ? "Black"
-                                //    : finalItem?.value}`
                               }`,
                               
                             }

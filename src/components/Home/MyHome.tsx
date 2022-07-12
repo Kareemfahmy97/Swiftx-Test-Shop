@@ -89,7 +89,7 @@ const MyHome: React.FC = () => {
     return (
       <div className={classes.container}>
           
-            <p style={{fontSize:'24px', fontWeight:'600'}}>{currentCategoryFromLocation.toUpperCase()}</p>
+            <p style={{fontSize:'28px', fontWeight:'700'}}>{currentCategoryFromLocation.toUpperCase()}</p>
 
             <div className={classes.productsList}>{getCurrentProducts()}</div>
           

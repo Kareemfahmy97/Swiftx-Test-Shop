@@ -1,30 +1,26 @@
 
 .container{
     display: flex;
-    flex-direction: row;
-    
-    justify-content: space-between;
-    /* width: 100%; */
-    margin: 5% 0 20px;
+    flex-direction: column;
+    padding: 10px 10%;
+    background-color: #1D1F22;
+    width: 100vw;
+    margin: 0 0 20px ;
     padding: 0;
-    max-width: 318vw;
 }
 
 .productDetails{
+    background-color: #5ECE7B;
     display: flex;
     flex-direction: column;
+    height: 70vh;
     justify-content: flex-start;
+        overflow-y: scroll;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; 
 }
 
-.productName{
-    align-self: flex-start;
-    justify-content: space-between; 
-    text-align:left;
 
-}
-.productName h4 {
-     margin: 5px auto;
-}
 
 .productShowCase{
     display: flex;
@@ -34,7 +30,7 @@
 }
 
 .productShowCase img {
-    object-fit: cover;
+    object-fit: fill;
     max-width: 125px;
 }
 
@@ -54,18 +50,7 @@
     font-size: 20px;
 }
 
-.attributesButton{
-     font-family: 'Source Sans Pro';
-    font-weight: 500;
-    font-size: 14px;
-    line-height: 160%;
-    border: 1px solid #1D1F22;
-    background: rgba(255, 255, 255, 0.2);
-    min-width: 24px;
-    height: 24px;
-    padding: 0 5px;
-    margin-right: 5px;
-}
+
 .selectedAttributeButton,
 .attributesButton:focus{
     background-color: black;

@@ -1,10 +1,11 @@
 import React from "react";
+import { classicNameResolver } from "typescript";
 import { useAppSelector } from "../../app/hooks";
 import { selectCartState } from "../../features/cart/cartSlice";
 import { selectCurrency } from "../../features/currency/currencySlice";
 import { NewProduct } from "../../generated/newgenerated/graphql";
 import CartItem from "./CartItem";
-
+import classes from './CartPage.module.css';
 
 
 
@@ -16,8 +17,9 @@ const myCurrencyState = useAppSelector(selectCurrency)
 
     return (
       <div style={{ padding: "10px 10%" }}>
+      {/* <div className={classes.container}> */}
         <div
-          style={{ height: "70vh", overflowX: "hidden", overflowY: "scroll" }}
+          style={{ height: "70vh", overflowX: "hidden", overflow: "scroll", scrollbarWidth: 'none', msOverflowStyle: 'none' }}
         >
           {myCartProducts.map((item: NewProduct, index) => {
             const currentCurrencyPrice = item.prices.find(
@@ -38,11 +40,17 @@ const myCurrencyState = useAppSelector(selectCurrency)
           })}
         </div>
 
-        <div style={{ textAlign: "center", margin: "20px auto" }}>
+        <div
+          style={{ textAlign: "left", margin: "20px auto" }}
+          // className={classes.productShowCase}
+        >
+          <h2>{`Taxes: ${Math.ceil(myCartState.cartTotalAmount * 0.21).toFixed(
+            2
+          )}%`}</h2>
           <h2>{myCartState.cartTotalQuantity} Items</h2>
 
           <h2>
-            Total Price: 
+            Total Price:
             {myCartState.cartTotalAmount.toFixed(2)}
             {myCurrencyState.activeCurrency}
           </h2>

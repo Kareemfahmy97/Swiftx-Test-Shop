@@ -11,6 +11,8 @@ import {
   selectProduct,
   setActiveProductId,
 } from "../../features/products/productSlice";
+  import sanitizeHtml from "sanitize-html";
+
 import "./styles.css";
 
 const ProductDetails: React.FC = () => {
@@ -19,9 +21,10 @@ const ProductDetails: React.FC = () => {
   console.log(productIdFromLocation);
   const dispatch = useAppDispatch();
   const [myMainImage, setMyMainImage] = useState("");
-
+  const [selectedButton, setSelectedButton] = useState<string[]>(['']);
   const myCurrencyState = useAppSelector(selectCurrency);
   // const dispatch = useAppDispatch();
+
   const myProductState = useAppSelector(selectProduct);
   const {
     data: dataProductById,
@@ -31,7 +34,17 @@ const ProductDetails: React.FC = () => {
   } = useFetchProductByIdQuery({
     variables: { id: String(productIdFromLocation) },
   });
-
+  
+  const MyComponent = () => {
+    const dirty = dataProductById?.product?.description;
+    const clean = sanitizeHtml(dirty!, {
+      allowedTags: ["b", "i", "br" ,"em","li",'h3', "strong", 'p', "a"],
+      allowedAttributes: {
+        a: ["href", "target"],
+      },
+    });
+    return <div dangerouslySetInnerHTML={{ __html: clean }} />;
+  };
   useEffect(() => {
     refetch({ id: String(productIdFromLocation) });
   }, [refetch, productIdFromLocation]);
@@ -49,22 +62,39 @@ const ProductDetails: React.FC = () => {
   const changeMainImage = (image: string) => {
     setMyMainImage(image);
   };
-  let attributeName = "";
-  let attributeType = "";
-  let myValuesArr: string[] = [];
-  const productAttributes = dataProductById.product?.attributes;
-  const changeAttributeHandler = (event: any) => {
-    console.log(event.target.value);
+  const handleSelected = (event: string) => {
+    if (!selectedButton.includes(event)) {
+      let splittedAttribute = event.split("+")[0];
+      let attributeExist = selectedButton.some(
+        (element) => element.split("+")[0] === splittedAttribute
+      );
+      if (attributeExist) {
+        const myRepeatedCategory = selectedButton.filter(
+          (s) => s.split("+")[0] !== splittedAttribute
+        );
+        console.log(myRepeatedCategory);
+        setSelectedButton([...myRepeatedCategory, event]);
+      } else {
+        setSelectedButton((prevSelected) => [...prevSelected, event]);
+      }
+    }
   };
-  const filtering = productAttributes?.map((item) => {
-    return (
-      (attributeName = item?.name!),
-      (attributeType = item?.type!),
-      item?.items?.map((myitem, i) => myValuesArr.push(myitem?.displayValue!))
-    );
-  });
 
-  // I have better solution for this part
+  // let attributeName = "";
+  // let attributeType = "";
+  // let myValuesArr: string[] = [];
+  const productAttributes = dataProductById.product?.attributes;
+  // const changeAttributeHandler = (event: any) => {
+  //   console.log(event.target.value);
+  // };
+  // const filtering = productAttributes?.map((item) => {
+  //   return (
+  //     (attributeName = item?.name!),
+  //     (attributeType = item?.type!),
+  //     item?.items?.map((myitem, i) => myValuesArr.push(myitem?.displayValue!))
+  //   );
+  // });
+
   return (
     <main>
       <section id="grid">
@@ -92,8 +122,7 @@ const ProductDetails: React.FC = () => {
                   : dataProductById.product?.gallery![0]!
               }
               // className={classes.mainImage}
-              width="100%"
-              height="100%"
+
               alt={dataProductById.product?.name}
             />
           </div>
@@ -123,79 +152,62 @@ const ProductDetails: React.FC = () => {
           </div>
         </div>
         <div className="box">
-          {/* {productAttributes?.map((item) => {
-            if (item?.type === "swatch") {
-            }
-            return (
-              <div key={item?.name}>
-                <label key={item?.name}>
-                  <b>{item?.name}</b>
-                </label>
-                <br />
-                {item?.items?.map((finalItem) => {
-                  return (
-                    <button key={finalItem?.id}>
-                      {finalItem?.displayValue}
-                    </button>
-                  );
-                })}
-              </div>
-            );
-          })} */}
-
-          <div>
-            {productAttributes?.map((item) => (
-              <div
-           
-                key={`${productIdFromLocation} ${item?.id}`}
-              >
-                <p >{`${item?.name}:`}</p>
-                <div >
-                  {item?.items?.map((attribute, index) => (
-                    <div key={`${productIdFromLocation} ${attribute?.id}`}>
-                      <input
-                        type="radio"
-                        style={{ display: "none" }}
-                        key={`${item.id} ${attribute?.id}`}
-                        id={`${item.id} ${attribute?.id}`}
-                        onChange={changeAttributeHandler}
-                        value={attribute?.value!}
-                        name={item.name!}
-                        checked={true}
-                        disabled={
-                          dataProductById.product?.inStock ? false : true
+          {/* <div> */}
+            {productAttributes?.map((attribute) => {
+              return (
+                <div key={attribute?.name}>
+                  <label key={attribute?.name} htmlFor={`${attribute?.id} `}>
+                    <b>{`${attribute?.name}:`}</b>
+                  </label>
+                  <br />
+                  {attribute?.items?.map((finalItem) => {
+                    return (
+                      <button
+                        key={finalItem?.id}
+                        value={finalItem?.value!}
+                        onClick={() => {
+                          handleSelected(`${attribute.id}+${finalItem?.id}`);
+                        }}
+                        // onFocus={() => handleFocus()}
+                        className={
+                          attribute.type === "swatch"
+                            ? `swatchButton ${
+                                selectedButton.includes(
+                                  `${attribute.id}+${finalItem?.id}`
+                                )
+                                  ? 'selectedSwatchButton'
+                                  : ""
+                              }`
+                            : `attributesButton ${
+                                selectedButton.includes(
+                                  `${attribute.id}+${finalItem?.id}`
+                                )
+                                  ? 'selectedAttributeButton'
+                                  : ""
+                              }`
                         }
-                      />
-                      <label htmlFor={`${item.id} ${attribute?.id}`}>
-                        <div
-                          className={
-                            item.type !== "swatch"
-                              ? 'attributesText'
-                              : 'attributesColor'
-                          }
-                          style={
-                            item.type === "swatch"
-                              ? {
-                                  background: attribute?.value!,
-                                  border: `1px solid ${
-                                    item.id === "white"
-                                      ? "black"
-                                      : attribute?.value!
-                                  }`,
-                                }
-                              : undefined
-                          }
-                        >
-                          {item.type !== "swatch" ? attribute?.value : ""}
-                        </div>
-                      </label>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            ))}
+                        style={
+                          attribute.type === "swatch"
+                            ? {
+                                backgroundColor: `${finalItem?.value}`,
+                                border: `1px solid ${
+                                  finalItem?.id === "White"
+                                    ? "Black"
+                                    : finalItem?.value
+                                }`,
+                              }
+                            : undefined
+                        }
+                      >
+                        {attribute.type === "swatch" ? "" : finalItem?.value}
+                      </button>
+                      // </>
+                    );
+                  })}
+                </div>);
+            })}
           </div>
-        </div>
+
 
         <div className="box">
           {dataProductById.product?.prices?.map((price) => {
@@ -205,7 +217,7 @@ const ProductDetails: React.FC = () => {
                   <p>
                     <b>PRICE:</b>
                   </p>
-                  <h4>
+                  <p>
                     <b>
                       {price.currency.symbol}
                       {`${Math.ceil(price.amount).toFixed(2)}`}
@@ -213,7 +225,7 @@ const ProductDetails: React.FC = () => {
                     </b>
 
                     <label key={price.amount}></label>
-                  </h4>
+                  </p>
                 </div>
               );
             }
@@ -222,12 +234,9 @@ const ProductDetails: React.FC = () => {
         <div className="box">
           <button className="addToCart">Add to cart</button>
         </div>
-        <div
-          className="box"
-          dangerouslySetInnerHTML={{
-            __html: dataProductById.product?.description!,
-          }}
-        ></div>
+        <div className="box">
+        <MyComponent />
+        </div>
       </section>
     </main>
   );
