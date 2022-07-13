@@ -2,9 +2,7 @@
   box-sizing: border-box;
 }
 .details {
-  /* background-color: rgb(219, 227, 227); */
   background-color: rgb(255, 255, 255);
-
   position: absolute;
   width: 18.25rem;
   height: 32.063rem;
@@ -18,16 +16,12 @@
   font-family: "Times New Roman", Times, serif;
   color: #1d1f22;
   position: absolute;
-  /* background-color: rgb(219, 227, 227); */
   background-color: rgb(255, 255, 255);
-
   font-family: "Raleway";
   font-style: normal;
   font-weight: 600;
   font-size: 30px;
   line-height: 27px;
-  /* identical to box height, or 90% */
-
   display: flex;
   align-items: center;
 }
@@ -35,15 +29,12 @@
 main {
   width: 100vw;
   display: flex;
-  /* background-color: #5ECE7B; */
   justify-content: space-around;
 }
 main section {
   width: 100%;
   max-width: 1500px;
   height: 100vh;
-  /* background-color: #bef7b0; */
-  /* background-color: rgb(186, 22, 22); */
   position: relative;
   right: 50px;
   max-height: 513px;
@@ -79,10 +70,7 @@ main section {
   width: 0;
   height: 0;
 }
-/* .img-select{
-  display: flex;
-  flex-direction: column;
-} */
+
 .img-item {
   height: 110px;
   width: 110px;
@@ -90,34 +78,23 @@ main section {
   object-fit: cover;
 }
 
-
 .box:nth-child(2) {
-  /* background-color: rgb(219, 227, 227); */
   min-height: 65vh;
   min-width: 30vw;
   object-fit: contain;
   grid-row: 1/6;
   grid-column: 2;
 }
-/* 
-.box:nth-child(2) img{
-  height: 65vh;
-  object-fit: cover;
-  background-color: saddlebrown;
-} */
 
 .box:nth-child(3) {
   justify-content: flex-start;
   align-items: flex-start;
   margin-top: 0;
   padding-top: 0;
-  /* background-color: rgba(177, 114, 210, 0.722); */
-  height: fit-content;
-  /* background-color: rgb(236, 236, 236); */
-
+  align-items: space-between;
   grid-row: 1;
   grid-column: 3;
-  line-height: 0;
+  line-height: 0.5;
 }
 .box:nth-child(4) {
   display: flex;
@@ -125,15 +102,10 @@ main section {
   align-items: flex-start;
   margin-top: 10px;
   justify-content: space-between;
-  /* background-color: rgb(215, 215, 215); */
-  /* background-color: rgb(209, 94, 5); */
-
   grid-row: 2;
   grid-column: 3;
 }
 .box:nth-child(5) {
-  /* background-color: rgb(219, 227, 227); */
-  /* background-color: rgb(126, 23, 23); */
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
@@ -142,18 +114,15 @@ main section {
   grid-column: 3;
 }
 .box:nth-child(6) {
-  /* background-color: rgb(22, 186, 118); */
-  
   height: fit-content;
   justify-content: flex-start;
-  align-items: flex-start;  
+  align-items: flex-start;
   object-fit: contain;
   margin-bottom: 10px;
   grid-row: 4;
   grid-column: 3;
-} 
+}
 .box:nth-child(7) {
-  /* background-color: rgb(140, 85, 85); */
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -162,19 +131,30 @@ main section {
   grid-row: 5;
   overflow: scroll;
   width: fit-content;
-  scrollbar-width: none; 
-  color:rgb(0, 0, 0);
+  scrollbar-width: none;
+  color: rgb(0, 0, 0);
   -ms-overflow-style: none;
 }
-.box:nth-child(7)::-webkit-scrollbar { /* WebKit */
-    width: 0;
-    height: 0;
-    
+.box:nth-child(7)::-webkit-scrollbar {
+  /* WebKit */
+  width: 0;
+  height: 0;
 }
 
-.box img {
+.main-Img {
   max-height: 510px;
   max-width: 600px;
+}
+.notAvailable {
+  filter: opacity(0.5);
+}
+.notAvailableText {
+  position: absolute;
+  color: #161616;
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 38.4px;
+  z-index: 1000;
 }
 .box:nth-child(4) button {
   display: inline-flex;
@@ -186,29 +166,6 @@ main section {
   padding: 0;
   border: 1px solid #1d1f22;
 }
-
-/* .box:nth-child(4) button {
-  appearance: none;
-  background: none;
-  font-size: 12px;
-  padding-left: 12px;
-  padding-right: 12px;
-  outline: none;
-  border: 2px solid transparent;
-  color: rgb(112, 76, 182);
-  padding-bottom: 4px;
-  cursor: pointer;
-  background-color: rgba(112, 76, 182, 0.1);
-  border-radius: 2px;
-  transition: all 0.15s;
-}
-
-.box:nth-child(4) button:hover,
-button:focus {
-  border: 2px solid rgba(112, 76, 182, 0.4);
-  background-color: rgba(15, 14, 17, 0.2);
-} */
-
 .box:nth-child(4) button:active {
   background-color: rgba(27, 27, 27, 0.904);
 }
@@ -216,7 +173,7 @@ button:focus {
   width: 100%;
   text-align: center;
   background-color: #5ece7b;
-  border:none;
+  border: none;
   padding: 16px 25px;
   transition: all 50ms ease-in-out;
   color: white;
@@ -225,32 +182,34 @@ button:focus {
 
 .addToCart:hover {
   color: #222;
-  background-color: #499c34;
+  background-color: #66d749;
 }
-.addToCart:focus-within {
-  background-color: #499c34;
+.disabledButton {
+  width: 100%;
+  text-align: center;
+  background-color: #5ece7b;
+  border: none;
+  padding: 16px 25px;
+  color: white;
+  filter: opacity(0.5);
 }
-
-.addToCart:visited {
-  color: #222;
-  background-color: red;
+.addToCart:active {
+  background-color: #5ece7b;
+  transform: scale(0.95);
 }
-
-
-.swatchButton{
-   width: 32px;
+.swatchButton {
+  width: 32px;
   height: 32px;
   margin-right: 8px;
   cursor: pointer;
   box-sizing: border-box;
 }
-
-.selectedSwatchButton{
-    transform: scale(1.1); 
-    border: 3px solid #5ECE7B !important; 
+.selectedSwatchButton {
+  transform: scale(1.1);
+  border: 3px solid #5ece7b !important;
 }
 
-.attributesButton{
+.attributesButton {
   font-family: "Source Sans Pro", sans-serif;
   font-weight: 700;
   font-size: 16px;
@@ -266,7 +225,7 @@ button:focus {
 }
 
 .selectedAttributeButton,
-.attributesButton:focus{
-    background-color: black;
-    color: white;
+.attributesButton:focus {
+  background-color: black;
+  color: white;
 }

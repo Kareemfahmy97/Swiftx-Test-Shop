@@ -37,17 +37,18 @@ export const SingleProduct: React.FC<Props> = ({productData, price}) => {
         return <div>ERROR CURRENCY</div>
     }
 
-
-    
+    const productInStock = productData.inStock;
 
     
     return (
       <div
-        className={classes.container}
+        className={`${classes.container} ${
+          !productInStock ? classes.notAvailable : ""
+        }`}
         onMouseEnter={() => setIsFocus(true)}
         onMouseLeave={() => setIsFocus(false)}
       >
-        {isFocus && (
+        {productInStock && isFocus && (
           <img
             src={addtocart}
             className={classes.addtocart}
@@ -56,20 +57,27 @@ export const SingleProduct: React.FC<Props> = ({productData, price}) => {
           />
         )}
         <Link to={`/product/${productData.id}`} key={productData.id}>
-          <div className={classes.containerImg}>
+          <div
+            className={`${classes.containerImg}`}
+          >
             <img
               src={productData.image}
               key={productData.id}
               alt={productData?.name}
               className={classes.productImg}
             />
+            {!productInStock && (
+              <p className={classes.notAvailableText}>OUT OF STOCK</p>
+            )}
           </div>
         </Link>
         <div className={classes.containerDetails}>
           {/* Product name and price */}
 
           <p>{productData?.name}</p>
-          <p className={classes.productPrice}>{`${price.currency.symbol}${price.amount}`}</p>
+          <p
+            className={classes.productPrice}
+          >{`${price.currency.symbol}${price.amount}`}</p>
 
           {/* <ProductAttributes data={productData} /> */}
         </div>

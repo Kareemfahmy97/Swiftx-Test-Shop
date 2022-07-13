@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import CartItem from "./CartItem";
 import classes from "./MiniCart.module.css";
 // import { Link } from "react-router-dom";
-import { useAppSelector } from "../../app/hooks";
-import { selectCartState } from "../../features/cart/cartSlice";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { checkOutCart, selectCartState } from "../../features/cart/cartSlice";
 import { selectCurrency } from "../../features/currency/currencySlice";
 import { NewProduct } from "../../generated/newgenerated/graphql";
 import { Link } from "react-router-dom";
@@ -14,18 +14,13 @@ interface Props {
 }
 
 export const MiniCart: React.FC<Props> = ({ myCartProducts, cartOpened }) => {
-  // My data here passing wrong type so my attributes won't be visible
+  // My data here passing wrong type so my attributes were not visible
+  // Edit them successfully 
 
-  const [toggleMyCart, setToggleMyCart] = useState(false);
-
-  const toggleCart = () => {
-    setToggleMyCart(prevState => !prevState);
-    
-  };
-  // console.log(cartOpened); 
+  const dispatch = useAppDispatch();
   const myCurrencyState = useAppSelector(selectCurrency);
   const myCartState = useAppSelector(selectCartState);
-            
+  
 
   return (
     <div className={classes.toggleCart}>
@@ -60,15 +55,16 @@ export const MiniCart: React.FC<Props> = ({ myCartProducts, cartOpened }) => {
       </div>
 
       <div className={classes.buttonContainer}>
-        <Link to="/cart">
+        <Link to="/cart" >
           <button
             className={classes.showFullCart}
             onClick={() => cartOpened(false)}
+            disabled={myCartState.cartProducts.length===0}
           >
             View Bag
           </button>
         </Link>
-        <button className={classes.checkOut} onClick={() => cartOpened(false)}>
+        <button className={classes.checkOut} onClick={() => {cartOpened(false); dispatch(checkOutCart(null)) }}>
           Check out
         </button>
       </div>

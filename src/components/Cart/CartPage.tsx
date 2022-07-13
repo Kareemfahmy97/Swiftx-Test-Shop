@@ -1,11 +1,11 @@
 import React from "react";
 import { classicNameResolver } from "typescript";
-import { useAppSelector } from "../../app/hooks";
-import { selectCartState } from "../../features/cart/cartSlice";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { checkOutCart, selectCartState } from "../../features/cart/cartSlice";
 import { selectCurrency } from "../../features/currency/currencySlice";
 import { NewProduct } from "../../generated/newgenerated/graphql";
 import CartItem from "./CartItem";
-import classes from './CartPage.module.css';
+import  classes from './CartPage.module.css';
 
 
 
@@ -14,13 +14,16 @@ const CartPage: React.FC  = () =>   {
 const myCartState = useAppSelector(selectCartState);
 const myCartProducts =  myCartState.cartProducts;
 const myCurrencyState = useAppSelector(selectCurrency)
-
+const dispatch = useAppDispatch();
     return (
-      <div style={{ padding: "10px 10%" }}>
+      <div style={{ padding: "80px 10%" }}>
       {/* <div className={classes.container}> */}
+      <div className="firstSection">
+      <h4>CART</h4>
+      </div>
         <div
           style={{ height: "70vh", overflowX: "hidden", overflow: "scroll", scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-        >
+          >
           {myCartProducts.map((item: NewProduct, index) => {
             const currentCurrencyPrice = item.prices.find(
               (currency) =>
@@ -39,22 +42,25 @@ const myCurrencyState = useAppSelector(selectCurrency)
             );
           })}
         </div>
-
+          <div className="thirdSection">
         <div
           style={{ textAlign: "left", margin: "20px auto" }}
           // className={classes.productShowCase}
         >
-          <h2>{`Taxes: ${Math.ceil(myCartState.cartTotalAmount * 0.21).toFixed(
+          <h2>{`Tax 21%: ${Math.ceil(myCartState.cartTotalAmount * 0.21).toFixed(
             2
           )}%`}</h2>
-          <h2>{myCartState.cartTotalQuantity} Items</h2>
+          <h2>Quantity: {myCartState.cartTotalQuantity}</h2>
 
           <h2>
-            Total Price:
-            {myCartState.cartTotalAmount.toFixed(2)}
-            {myCurrencyState.activeCurrency}
+            {`Total: ${myCartState.cartTotalAmount.toFixed(2)}${myCurrencyState.activeCurrency}`}
           </h2>
         </div>
+        <div>
+            <button className={classes.orderButton} onClick={()=> dispatch(checkOutCart(null))}>order</button>
+        </div>
+
+          </div>
       </div>
     );
   

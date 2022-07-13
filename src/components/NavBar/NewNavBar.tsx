@@ -20,7 +20,7 @@ import {
 import MiniCart from "../Cart/MiniCart";
 import { Link, useLocation } from "react-router-dom";
 import { setActiveProductId } from "../../features/products/productSlice";
-
+import ShopLogo from '../Assests/VSF.png'
 const NewNavbar: React.FC = () => {
   const myCategoriesState = useAppSelector(selectCategory);
   const myCurrenciesState = useAppSelector(selectCurrency);
@@ -52,7 +52,6 @@ const NewNavbar: React.FC = () => {
     error: categoriesError,
     loading: categoriesLoading,
   } = useFetchAllCategoriesQuery({});
-
   if (categoriesLoading || currencyLoading) {
     return <div>Loading Categories and Currency...</div>;
   }
@@ -87,18 +86,18 @@ const NewNavbar: React.FC = () => {
                     if(isCartOpened){showMiniCart();}
                   }}
                 >
-                  <div className={classes.CategoryItem}>
+                  <div className={`${classes.CategoryItem} ${myCategoriesState.activeCategory === category.name ? classes.CategoryItemActive : ''}`}>
                     {category.name?.toUpperCase()}
                   </div>
                 </Link>
-                // <span
-                //   key={i}
-                //   className={classes.category}
-                //   onClick={() => dispatch(updateActiveCategory(category.name!))}
-                // >
-                // </span>
+ 
               )
           )}
+      </div>
+      <div>
+        <Link to={'/all'}>
+        <img src={ShopLogo} alt='Website Logo' style={{width:'28px', height: '26px', position:'absolute', left:'49%', top:"30%"}}/>
+        </Link>
       </div>
 
       <div className={classes.misc}>

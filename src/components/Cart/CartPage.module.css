@@ -1,70 +1,19 @@
 
-.container{
-    display: flex;
-    flex-direction: column;
-    padding: 10px 10%;
-    background-color: #1D1F22;
-    width: 100vw;
-    margin: 0 0 20px ;
-    padding: 0;
+
+.orderButton {
+  text-transform: uppercase;
+  width: 100%;
+  background-color: #5ece7b;
+  border: none;
+  justify-content: center;
+  align-items: center;
+  padding: 16px 32px;
+  color: white;
+  width: 279px;
+  cursor: pointer;
+  height: 43px;
 }
-
-.productDetails{
-    background-color: #5ECE7B;
-    display: flex;
-    flex-direction: column;
-    height: 70vh;
-    justify-content: flex-start;
-        overflow-y: scroll;
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none; 
-}
-
-
-
-.productShowCase{
-    display: flex;
-    flex-direction: row;
-    gap: 8px;
-
-}
-
-.productShowCase img {
-    object-fit: fill;
-    max-width: 125px;
-}
-
-.productQuantity{
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.productQuantity button{
-    width: 40px;
-    height: 40px;
-    background-color: #fff;
-    border: 2px solid black;
-    cursor: pointer;
-    font-size: 20px;
-}
-
-
-.selectedAttributeButton,
-.attributesButton:focus{
-    background-color: black;
-    color: white;
-}
-
-.swatchButton{
-       width: 16px; 
-    height: 16px;
-    margin-right: 5px;
-
-    box-sizing: border-box;
-}
-.selectedSwatchButton{
-    transform: scale(1.1); 
-    border: 2px solid #5ECE7B !important; 
+.orderButton:active {
+  background-color: #32ae53;
+  transform: scale(0.95);
 }

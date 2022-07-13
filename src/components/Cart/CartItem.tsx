@@ -52,7 +52,6 @@ export const CartItem: React.FC<Props> = ({
         <div className={classes.productName}>
           <span>
             {data.brand}
-            <br />
             {data.name}
           </span>
           {price.currency && (

@@ -4,13 +4,13 @@ import { selectCategory } from "../../features/categories/categorySlice";
 import { selectCurrency } from "../../features/currency/currencySlice";
 import { PdpQuery } from "../../generated/graphql";
 import { useEffect, useState } from "react";
-import { addItemToCart } from "../../features/cart/cartSlice";
 import { useLocation } from "react-router-dom";
-import { useFetchProductByIdQuery } from "../../generated/newgenerated/graphql";
+import { useFetchProductByIdQuery, NewProduct } from "../../generated/newgenerated/graphql";
 import {
   selectProduct,
   setActiveProductId,
 } from "../../features/products/productSlice";
+import { addItemToCart } from "../../features/cart/cartSlice";
   import sanitizeHtml from "sanitize-html";
 
 import "./styles.css";
@@ -18,14 +18,13 @@ import "./styles.css";
 const ProductDetails: React.FC = () => {
   const location = useLocation();
   const productIdFromLocation = location.pathname.split("/")[2];
-  console.log(productIdFromLocation);
   const dispatch = useAppDispatch();
   const [myMainImage, setMyMainImage] = useState("");
   const [selectedButton, setSelectedButton] = useState<string[]>(['']);
   const myCurrencyState = useAppSelector(selectCurrency);
+  const myCategoryState = useAppSelector(selectCategory);
   // const dispatch = useAppDispatch();
 
-  const myProductState = useAppSelector(selectProduct);
   const {
     data: dataProductById,
     error: errorProductById,
@@ -69,35 +68,39 @@ const ProductDetails: React.FC = () => {
         (element) => element.split("+")[0] === splittedAttribute
       );
       if (attributeExist) {
-        const myRepeatedCategory = selectedButton.filter(
+        const myAttributeCategory = selectedButton.filter(
           (s) => s.split("+")[0] !== splittedAttribute
         );
-        console.log(myRepeatedCategory);
-        setSelectedButton([...myRepeatedCategory, event]);
+        setSelectedButton([...myAttributeCategory, event]);
       } else {
         setSelectedButton((prevSelected) => [...prevSelected, event]);
       }
     }
   };
 
-  // let attributeName = "";
-  // let attributeType = "";
-  // let myValuesArr: string[] = [];
   const productAttributes = dataProductById.product?.attributes;
-  // const changeAttributeHandler = (event: any) => {
-  //   console.log(event.target.value);
-  // };
-  // const filtering = productAttributes?.map((item) => {
-  //   return (
-  //     (attributeName = item?.name!),
-  //     (attributeType = item?.type!),
-  //     item?.items?.map((myitem, i) => myValuesArr.push(myitem?.displayValue!))
-  //   );
-  // });
+  const productInStock = dataProductById.product?.inStock;
+          //      ***********  MAKING PRODUCT TYPE *******
+          const currentPriceState = dataProductById.product?.prices.find(currency => currency.currency.label === myCurrencyState.activeCurrency);
+          const myProduct: NewProduct = {
+            name: dataProductById.product?.name!,
+            image: dataProductById.product?.gallery![0]!,
+            brand: dataProductById.product?.brand!,
+            inStock: dataProductById.product?.inStock!,
+            id: productIdFromLocation,
+            productTotalQuantity: 1,
+            category: myCategoryState.activeCategory,
+            artificialId: Math.floor(Math.random() * 1000),
+            attributes: dataProductById.product?.attributes,
+            description: dataProductById.product?.description!,
+            prices: dataProductById.product?.prices!,
+            currentPrice: currentPriceState!,
+            allAttributes: {},
+          };
 
   return (
     <main>
-      <section id="grid">
+      <section id="grid" className={`${!productInStock ? "notAvailable" : ""}`}>
         <div id="product-imgs">
           {dataProductById.product?.gallery?.map((image, index) => {
             return (
@@ -106,7 +109,7 @@ const ProductDetails: React.FC = () => {
                   src={image!}
                   alt={dataProductById.product?.name}
                   key={index}
-                  className="img-item"
+                  className={`img-item ${!productInStock ? "notAvailable" : ""} `}
                   onClick={() => changeMainImage(image!)}
                 />
               </div>
@@ -121,10 +124,12 @@ const ProductDetails: React.FC = () => {
                   ? myMainImage
                   : dataProductById.product?.gallery![0]!
               }
-              // className={classes.mainImage}
-
+              className='main-Img'
               alt={dataProductById.product?.name}
             />
+            {!productInStock && (
+              <p className='notAvailableText'>OUT OF STOCK</p>
+            )}
           </div>
         </div>
 
@@ -153,61 +158,62 @@ const ProductDetails: React.FC = () => {
         </div>
         <div className="box">
           {/* <div> */}
-            {productAttributes?.map((attribute) => {
-              return (
-                <div key={attribute?.name}>
-                  <label key={attribute?.name} htmlFor={`${attribute?.id} `}>
-                    <b>{`${attribute?.name}:`}</b>
-                  </label>
-                  <br />
-                  {attribute?.items?.map((finalItem) => {
-                    return (
-                      <button
-                        key={finalItem?.id}
-                        value={finalItem?.value!}
-                        onClick={() => {
-                          handleSelected(`${attribute.id}+${finalItem?.id}`);
-                        }}
-                        // onFocus={() => handleFocus()}
-                        className={
-                          attribute.type === "swatch"
-                            ? `swatchButton ${
-                                selectedButton.includes(
-                                  `${attribute.id}+${finalItem?.id}`
-                                )
-                                  ? 'selectedSwatchButton'
-                                  : ""
-                              }`
-                            : `attributesButton ${
-                                selectedButton.includes(
-                                  `${attribute.id}+${finalItem?.id}`
-                                )
-                                  ? 'selectedAttributeButton'
-                                  : ""
-                              }`
-                        }
-                        style={
-                          attribute.type === "swatch"
-                            ? {
-                                backgroundColor: `${finalItem?.value}`,
-                                border: `1px solid ${
-                                  finalItem?.id === "White"
-                                    ? "Black"
-                                    : finalItem?.value
-                                }`,
-                              }
-                            : undefined
-                        }
-                      >
-                        {attribute.type === "swatch" ? "" : finalItem?.value}
-                      </button>
-                      // </>
-                    );
-                  })}
-                </div>);
-            })}
-          </div>
-
+          {productAttributes?.map((attribute) => {
+            return (
+              <div key={attribute?.name}>
+                <label key={attribute?.name} htmlFor={`${attribute?.id} `}>
+                  <b>{`${attribute?.name}:`}</b>
+                </label>
+                <br />
+                {attribute?.items?.map((finalItem) => {
+                  return (
+                    <button
+                      key={finalItem?.id}
+                      value={finalItem?.value!}
+                      onClick={() => {
+                        handleSelected(`${attribute.id}+${finalItem?.id}`);
+                      }}
+                      disabled={!productInStock}
+                      // onFocus={() => handleFocus()}
+                      className={
+                        attribute.type === "swatch"
+                          ? `swatchButton ${
+                              selectedButton.includes(
+                                `${attribute.id}+${finalItem?.id}`
+                              )
+                                ? "selectedSwatchButton"
+                                : ""
+                            }`
+                          : `attributesButton ${
+                              selectedButton.includes(
+                                `${attribute.id}+${finalItem?.id}`
+                              )
+                                ? "selectedAttributeButton"
+                                : ""
+                            }`
+                      }
+                      style={
+                        attribute.type === "swatch"
+                          ? {
+                              backgroundColor: `${finalItem?.value}`,
+                              border: `1px solid ${
+                                finalItem?.id === "White"
+                                  ? "Black"
+                                  : finalItem?.value
+                              }`,
+                            }
+                          : undefined
+                      }
+                    >
+                      {attribute.type === "swatch" ? "" : finalItem?.value}
+                    </button>
+                    // </>
+                  );
+                })}
+              </div>
+            );
+          })}
+        </div>
 
         <div className="box">
           {dataProductById.product?.prices?.map((price) => {
@@ -232,10 +238,16 @@ const ProductDetails: React.FC = () => {
           })}
         </div>
         <div className="box">
-          <button className="addToCart">Add to cart</button>
+          <button
+            className={`${!productInStock ? "disabledButton" : "addToCart"}`}
+            onClick={() => dispatch(addItemToCart(myProduct))}
+            disabled={!productInStock}
+          >
+            Add to cart
+          </button>
         </div>
         <div className="box">
-        <MyComponent />
+          <MyComponent />
         </div>
       </section>
     </main>

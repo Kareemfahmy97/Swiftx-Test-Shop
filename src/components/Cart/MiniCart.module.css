@@ -1,107 +1,90 @@
-.toggleCart{
-        opacity: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 32px 16px;
-    position: absolute;
-    min-height: 250px;
-    max-height: 500px;
-    margin-right: 5%;
-    width: 350px;
-    right: 5%;
-    top: 100%;
-    overflow: hidden;
-    z-index: 999;
-    text-align: left;
-    /* transition: opaciity 150ms ease-in-out; */
-    background-color: rgb(255, 255, 255);
-
+.toggleCart {
+  opacity: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 32px 16px;
+  position: absolute;
+  min-height: 250px;
+  max-height: 500px;
+  margin-right: 5%;
+  width: 350px;
+  right: 5%;
+  top: 100%;
+  overflow: hidden;
+  z-index: 999;
+  text-align: left;
+  background-color: rgb(255, 255, 255);
 }
-.bagItems{
-    align-self: flex-start;
-    font-weight: 600;
-    font-size: 18px;
-    margin-top: -5%;
+.bagItems {
+  align-self: flex-start;
+  font-weight: 600;
+  font-size: 18px;
+  margin-top: -5%;
 }
-.minibag{
-    position: relative;
-    width: 100%;
-    margin: 20px auto;
-    /* background-color: rgb(177, 171, 171); */
-    align-items: center;
-    overflow-y: scroll;
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none; 
-    
-/* right: 35%;
-bottom: 20px; */
+.minibag {
+  position: relative;
+  width: 100%;
+  margin: 20px auto;
+  align-items: center;
+  overflow-y: scroll;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;
 }
-.minibag::-webkit-scrollbar { /* WebKit */
-    width: 0;
-    height: 0;
+.minibag::-webkit-scrollbar {
+  /* WebKit */
+  width: 0;
+  height: 0;
 }
 
-.items{
-    margin: 20px auto;
-    height: 750px;
-    overflow-y: scroll;
+.items {
+  margin: 20px auto;
+  height: 750px;
+  overflow-y: scroll;
 }
-.buttonContainer{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+.buttonContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
-.priceSection{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    font-size: 20px;
-    font-weight: 500;
-    line-height: 18px;
-    margin-bottom: 15px;
-    padding: 0;
+.priceSection {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 18px;
+  margin-bottom: 15px;
+  padding: 0;
 }
-.checkOut{
-    height: 45px;
-    background: #5ECE7B;
-    /* align-self: center; */
-    color: white;
-    text-transform: uppercase;
-    border: 0;
-    font-family: 'Raleway';
-font-style: normal;
-font-weight: 600;
-font-size: 14px;
-line-height: 120%;
-width: 140px;
-text-align: center;
-
-    /* align-items: center; */
+.checkOut {
+  height: 45px;
+  background: #5ece7b;
+  color: white;
+  text-transform: uppercase;
+  border: 0;
+  font-family: "Raleway";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 120%;
+  width: 140px;
+  text-align: center;
+  cursor: pointer;
 }
-.showFullCart{
-    height: 45px;
-    color: black;
-    background: white;
-    border: 1px solid;
-    font-family: 'Raleway';
-text-align: center;
-
-    /*  
-font-size: 14px;
-font-weight: 600;
-line-height: 17px;
-letter-spacing: 0em;
-text-align: center; */
-font-family: 'Raleway';
-font-style: normal;
-font-weight: 600;
-font-size: 14px;
-line-height: 120%;
-    text-transform: uppercase;
-width: 140px;
-
-    /* align-self: center;
-    align-items: center; */
-
+.showFullCart {
+  height: 45px;
+  color: black;
+  background: white;
+  border: 1px solid;
+  font-family: "Raleway";
+  text-align: center;
+  font-family: "Raleway";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 120%;
+  text-transform: uppercase;
+  width: 140px;
+  cursor: pointer;
 }

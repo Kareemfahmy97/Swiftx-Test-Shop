@@ -156,9 +156,11 @@
 }
 
 
-.CategoryItem:hover {
+.CategoryItem:hover,
+.CategoryItemActive {
     transform: scale(1.02);
     color: #5ECE7B;
     border-bottom: #5ECE7B solid;
 
 }
+
