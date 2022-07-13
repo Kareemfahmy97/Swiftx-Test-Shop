@@ -1,20 +1,14 @@
-import React, { useEffect } from "react";
-import "./App.css";
+import React from "react";
 import ProductDetails from "./components/ProductDetail/PDP";
 import {
   BrowserRouter,
   Route,
-  Router,
   Navigate,
   Routes,
-  useLocation,
 } from "react-router-dom";
 
 import NewNavbar from "./components/NavBar/NewNavBar";
 import MyHome from "./components/Home/MyHome";
-import { useAppSelector } from "./app/hooks";
-import { selectProduct } from "./features/products/productSlice";
-import MiniCart from "./components/Cart/MiniCart";
 import CartPage from "./components/Cart/CartPage";
 
 const App: React.FC = () => {
@@ -35,3 +29,4 @@ const App: React.FC = () => {
 };
 
 export default App;
+

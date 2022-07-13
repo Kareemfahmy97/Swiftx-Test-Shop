@@ -1,19 +1,17 @@
-import React from "react";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { PdpQuery } from "../../generated/graphql";
-import { RootState } from "../../app/store";
-
+import { RootState } from "../../store";
 
 export interface ProductState {
   currentProductId: string;
-  productData: PdpQuery[]; 
+  productData: PdpQuery[];
   loading: string;
 }
 
 export const ProductSlice = createSlice({
   name: "currencies",
   initialState: {
-    currentProductId:"",
+    currentProductId: "",
     productData: [],
     loading: "",
   },
@@ -25,11 +23,11 @@ export const ProductSlice = createSlice({
       };
     },
     setProductData: (state, action) => {
-        return { 
-            ...state,
-            productData: action.payload,
-        }
-    }
+      return {
+        ...state,
+        productData: action.payload,
+      };
+    },
   },
 });
 

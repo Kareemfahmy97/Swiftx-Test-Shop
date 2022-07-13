@@ -1,84 +1,97 @@
-
-.container{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    /* width: 100%; */
-    margin: 5% 0 20px;
-    padding: 0;
-    max-width: 318vw;
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 20px 0;
+  padding: 15px 0;
+  max-width: 318vw;
+}
+.container {
+  border-top: 2px solid #e5e5e5;
+}
+.productDetails {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 }
 
-.productDetails{
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-}
-
-.productName{
-    align-self: flex-start;
-    justify-content: space-between; 
-    text-align:left;
-
+.productName {
+  align-self: flex-start;
+  justify-content: space-between;
+  text-align: left;
 }
 .productName h4 {
-     margin: 5px auto;
+  margin: 5px auto;
 }
 
-.productShowCase{
-    display: flex;
-    flex-direction: row;
-    gap: 8px;
+.productShowCase {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+}
 
+.productQuantity {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.productQuantity button {
+  width: 40px;
+  height: 40px;
+  background-color: #fff;
+  border: 2px solid black;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.attributesButton {
+  font-family: "Source Sans Pro";
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 160%;
+  border: 1px solid #1d1f22;
+  background: rgba(255, 255, 255, 0.2);
+  min-width: 24px;
+  height: 24px;
+  padding: 0 5px;
+  margin-right: 5px;
+}
+.selectedAttributeButton,
+.attributesButton:focus {
+  background-color: black;
+  color: white;
+}
+
+.swatchButton {
+  width: 16px;
+  height: 16px;
+  margin-right: 5px;
+
+  box-sizing: border-box;
+}
+.selectedSwatchButton {
+  transform: scale(1.1);
+  border: 2px solid #5ece7b !important;
+}
+
+.sliders {
+  position: relative;
+  align-items: flex-end;
+  align-self: flex-end;
+  left: 75%;
+  bottom: 5%;
+}
+.sliders button {
+  border: none;
+  margin-inline-end: 5px;
+  margin-bottom: 10%;
+  background-color: rgba(0, 0, 0, 0.73);
+  color: #fff;
 }
 
 .productShowCase img {
-    object-fit: cover;
-    max-width: 125px;
-}
-
-.productQuantity{
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.productQuantity button{
-    width: 40px;
-    height: 40px;
-    background-color: #fff;
-    border: 2px solid black;
-    cursor: pointer;
-    font-size: 20px;
-}
-
-.attributesButton{
-     font-family: 'Source Sans Pro';
-    font-weight: 500;
-    font-size: 14px;
-    line-height: 160%;
-    border: 1px solid #1D1F22;
-    background: rgba(255, 255, 255, 0.2);
-    min-width: 24px;
-    height: 24px;
-    padding: 0 5px;
-    margin-right: 5px;
-}
-.selectedAttributeButton,
-.attributesButton:focus{
-    background-color: black;
-    color: white;
-}
-
-.swatchButton{
-       width: 16px; 
-    height: 16px;
-    margin-right: 5px;
-
-    box-sizing: border-box;
-}
-.selectedSwatchButton{
-    transform: scale(1.1); 
-    border: 2px solid #5ECE7B !important; 
+  object-fit: cover;
+  max-width: 125px;
 }

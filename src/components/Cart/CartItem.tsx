@@ -1,12 +1,11 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import classes from "./CartItem.module.css";
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { useAppDispatch } from "../../hooks";
 import { Price, NewProduct } from "../../generated/newgenerated/graphql";
 import {
   quantityIncrement,
   quantityDecrement,
-} from "../../features/cart/cartSlice";
-import { selectCurrency } from "../../features/currency/currencySlice";
+} from "../../slices/cart/cartSlice";
 
 interface Props {
   key: string;
@@ -15,45 +14,61 @@ interface Props {
   id: string;
   myCartProducts: NewProduct[];
   myIndex: number;
+  slider: boolean;
 }
 export const CartItem: React.FC<Props> = ({
   data,
   price,
   id,
   myCartProducts,
+  slider,
   myIndex,
 }) => {
-  // const myCurrencyState = useAppSelector(selectCurrency);
-
-  // Quantity: ?
   const dispatch = useAppDispatch();
   const currentProduct = myCartProducts.find(
     (item: NewProduct) => item.id === id
   );
   const [selectedButton, setSelectedButton] = useState<string[]>([""]);
-
+  const [quantityOfImages, setQuantityOfImages] = useState(0);
   const handleSelected = (event: string) => {
     if (!selectedButton.includes(event)) {
       let splittedAttribute = event.split("+")[0];
-      let attributeExist = selectedButton.some((element) => element.split('+')[0] === splittedAttribute);
-        if(attributeExist){
-          const myRepeatedCategory = selectedButton.filter(s=> s.split('+')[0] !== splittedAttribute);
-      setSelectedButton([...myRepeatedCategory, event]);
-        }else{
-        setSelectedButton((prevSelected) => ([...prevSelected, event]));
-        }
+      let attributeExist = selectedButton.some(
+        (element) => element.split("+")[0] === splittedAttribute
+      );
+      if (attributeExist) {
+        const myRepeatedCategory = selectedButton.filter(
+          (s) => s.split("+")[0] !== splittedAttribute
+        );
+        setSelectedButton([...myRepeatedCategory, event]);
+      } else {
+        setSelectedButton((prevSelected) => [...prevSelected, event]);
+      }
     }
-
   };
 
+  const galleryLength = data.gallery?.length!;
+  const nextImgHandler = () => {
+    if (quantityOfImages >= galleryLength - 1) {
+      setQuantityOfImages(0);
+    }
+    setQuantityOfImages((prevState) => prevState + 1);
+  };
+  const prevImgHandler = () => {
+    if (quantityOfImages <= 0) {
+      setQuantityOfImages(galleryLength - 1);
+    }
+    setQuantityOfImages((prevState) => prevState - 1);
+  };
   return (
     <div className={classes.container}>
       <div className={classes.productDetails}>
         <div className={classes.productName}>
-          <span>
+          <p>
             {data.brand}
+            <br />
             {data.name}
-          </span>
+          </p>
           {price.currency && (
             <h4>
               {price.currency.symbol}
@@ -78,7 +93,6 @@ export const CartItem: React.FC<Props> = ({
                       onClick={() => {
                         handleSelected(`${attribute.id}+${finalItem?.id}`);
                       }}
-                      // onFocus={() => handleFocus()}
                       className={
                         attribute.type === "swatch"
                           ? `${classes.swatchButton} ${
@@ -105,7 +119,6 @@ export const CartItem: React.FC<Props> = ({
                                   ? "Black"
                                   : finalItem?.value
                               }`,
-                              
                             }
                           : undefined
                       }
@@ -119,17 +132,15 @@ export const CartItem: React.FC<Props> = ({
             );
           })}
         </div>
-
-        {/* <h4>
-
-            {`Total Price: ${price.currency.symbol}${Math.ceil(
-              currentProduct?.productTotalQuantity! *
-                productCurrentPrices?.amount!
-            )}`}
-          </h4> */}
       </div>
 
       <div className={classes.productShowCase}>
+        {slider && galleryLength > 1 && (
+          <div className={classes.sliders}>
+            <button onClick={() => prevImgHandler()}> {"<"} </button>
+            <button onClick={() => nextImgHandler()}> {">"} </button>
+          </div>
+        )}
         <div className={classes.productQuantity}>
           <button onClick={() => dispatch(quantityIncrement(id))}>+</button>
           <b>{currentProduct?.productTotalQuantity}</b>
@@ -137,7 +148,10 @@ export const CartItem: React.FC<Props> = ({
           <button onClick={() => dispatch(quantityDecrement(id))}>-</button>
         </div>
 
-        <img src={data.image} alt="prod" />
+        <img
+          src={`${slider ? data.gallery![quantityOfImages]! : data.image}`}
+          alt="sliders"
+        />
       </div>
     </div>
   );

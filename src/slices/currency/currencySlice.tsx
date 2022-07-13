@@ -1,9 +1,7 @@
-import React from 'react';
-import {  createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { FetchAllCurrenciesQuery } from "../../generated/newgenerated/graphql";
 
-import { RootState } from '../../app/store';
-
+import { RootState } from "../../store";
 
 export interface CurrencyState {
   categories: string[];

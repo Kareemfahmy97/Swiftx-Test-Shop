@@ -1,17 +1,16 @@
 import * as React from "react";
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { selectCategory } from "../../features/categories/categorySlice";
-import { selectCurrency } from "../../features/currency/currencySlice";
-import { PdpQuery } from "../../generated/graphql";
+import { useAppDispatch, useAppSelector } from "../../hooks";
+import { selectCategory } from "../../slices/categories/categorySlice";
+import { selectCurrency } from "../../slices/currency/currencySlice";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { useFetchProductByIdQuery, NewProduct } from "../../generated/newgenerated/graphql";
 import {
-  selectProduct,
-  setActiveProductId,
-} from "../../features/products/productSlice";
-import { addItemToCart } from "../../features/cart/cartSlice";
-  import sanitizeHtml from "sanitize-html";
+  useFetchProductByIdQuery,
+  NewProduct,
+} from "../../generated/newgenerated/graphql";
+
+import { addItemToCart } from "../../slices/cart/cartSlice";
+import sanitizeHtml from "sanitize-html";
 
 import "./styles.css";
 
@@ -20,10 +19,9 @@ const ProductDetails: React.FC = () => {
   const productIdFromLocation = location.pathname.split("/")[2];
   const dispatch = useAppDispatch();
   const [myMainImage, setMyMainImage] = useState("");
-  const [selectedButton, setSelectedButton] = useState<string[]>(['']);
+  const [selectedButton, setSelectedButton] = useState<string[]>([""]);
   const myCurrencyState = useAppSelector(selectCurrency);
   const myCategoryState = useAppSelector(selectCategory);
-  // const dispatch = useAppDispatch();
 
   const {
     data: dataProductById,
@@ -33,11 +31,11 @@ const ProductDetails: React.FC = () => {
   } = useFetchProductByIdQuery({
     variables: { id: String(productIdFromLocation) },
   });
-  
+
   const MyComponent = () => {
     const dirty = dataProductById?.product?.description;
     const clean = sanitizeHtml(dirty!, {
-      allowedTags: ["b", "i", "br" ,"em","li",'h3', "strong", 'p', "a"],
+      allowedTags: ["b", "i", "br", "em", "li", "h3", "strong", "p", "a"],
       allowedAttributes: {
         a: ["href", "target"],
       },
@@ -47,9 +45,6 @@ const ProductDetails: React.FC = () => {
   useEffect(() => {
     refetch({ id: String(productIdFromLocation) });
   }, [refetch, productIdFromLocation]);
-  // useEffect(() => {
-  //   dispatch(setActiveProductId(productIdFromLocation));
-  // }, []);
 
   if (loadingProudctById) {
     return <div>Loading...</div>;
@@ -80,24 +75,29 @@ const ProductDetails: React.FC = () => {
 
   const productAttributes = dataProductById.product?.attributes;
   const productInStock = dataProductById.product?.inStock;
-          //      ***********  MAKING PRODUCT TYPE *******
-          const currentPriceState = dataProductById.product?.prices.find(currency => currency.currency.label === myCurrencyState.activeCurrency);
-          const myProduct: NewProduct = {
-            name: dataProductById.product?.name!,
-            image: dataProductById.product?.gallery![0]!,
-            brand: dataProductById.product?.brand!,
-            inStock: dataProductById.product?.inStock!,
-            id: productIdFromLocation,
-            productTotalQuantity: 1,
-            category: myCategoryState.activeCategory,
-            artificialId: Math.floor(Math.random() * 1000),
-            attributes: dataProductById.product?.attributes,
-            description: dataProductById.product?.description!,
-            prices: dataProductById.product?.prices!,
-            currentPrice: currentPriceState!,
-            allAttributes: {},
-          };
-
+  //      ***********  MAKING PRODUCT TYPE *******
+  const currentPriceState = dataProductById.product?.prices.find(
+    (currency) => currency.currency.label === myCurrencyState.activeCurrency
+  );
+  const myProduct: NewProduct = {
+    name: dataProductById.product?.name!,
+    image: dataProductById.product?.gallery![0]!,
+    brand: dataProductById.product?.brand!,
+    gallery: dataProductById.product?.gallery,
+    inStock: dataProductById.product?.inStock!,
+    id: productIdFromLocation,
+    productTotalQuantity: 1,
+    category: myCategoryState.activeCategory,
+    artificialId: Math.floor(Math.random() * 1000),
+    attributes: dataProductById.product?.attributes,
+    description: dataProductById.product?.description!,
+    prices: dataProductById.product?.prices!,
+    currentPrice: currentPriceState!,
+    allAttributes: {},
+  };
+  const myProductPrice = dataProductById.product?.prices?.find(
+    (price) => price.currency.label === myCurrencyState.activeCurrency
+  );
   return (
     <main>
       <section id="grid" className={`${!productInStock ? "notAvailable" : ""}`}>
@@ -109,7 +109,9 @@ const ProductDetails: React.FC = () => {
                   src={image!}
                   alt={dataProductById.product?.name}
                   key={index}
-                  className={`img-item ${!productInStock ? "notAvailable" : ""} `}
+                  className={`img-item ${
+                    !productInStock ? "notAvailable" : ""
+                  } `}
                   onClick={() => changeMainImage(image!)}
                 />
               </div>
@@ -124,32 +126,15 @@ const ProductDetails: React.FC = () => {
                   ? myMainImage
                   : dataProductById.product?.gallery![0]!
               }
-              className='main-Img'
+              className="main-Img"
               alt={dataProductById.product?.name}
             />
             {!productInStock && (
-              <p className='notAvailableText'>OUT OF STOCK</p>
+              <p className="notAvailableText">OUT OF STOCK</p>
             )}
           </div>
         </div>
 
-        {/* <div className="box">
-          {dataProductById.product?.gallery?.map((image, index) => {
-            if (index === 0) {
-              return (
-                <div className="box">
-                  <img
-                    src={image!}
-                    alt={dataProductById.product?.name}
-                    key={image}
-                       width="100%"
-                    height="100%"
-                  />
-                </div>
-              );
-            }
-          })}
-        </div> */}
         <div className="box">
           <div>
             <h2>{dataProductById.product?.brand}</h2>
@@ -157,7 +142,6 @@ const ProductDetails: React.FC = () => {
           </div>
         </div>
         <div className="box">
-          {/* <div> */}
           {productAttributes?.map((attribute) => {
             return (
               <div key={attribute?.name}>
@@ -174,7 +158,6 @@ const ProductDetails: React.FC = () => {
                         handleSelected(`${attribute.id}+${finalItem?.id}`);
                       }}
                       disabled={!productInStock}
-                      // onFocus={() => handleFocus()}
                       className={
                         attribute.type === "swatch"
                           ? `swatchButton ${
@@ -216,26 +199,18 @@ const ProductDetails: React.FC = () => {
         </div>
 
         <div className="box">
-          {dataProductById.product?.prices?.map((price) => {
-            if (price.currency.label === myCurrencyState.activeCurrency) {
-              return (
-                <div className="prices">
-                  <p>
-                    <b>PRICE:</b>
-                  </p>
-                  <p>
-                    <b>
-                      {price.currency.symbol}
-                      {`${Math.ceil(price.amount).toFixed(2)}`}
-                      <br />
-                    </b>
-
-                    <label key={price.amount}></label>
-                  </p>
-                </div>
-              );
-            }
-          })}
+          <div className="prices">
+            <p>
+              <b>PRICE:</b>
+            </p>
+            <p>
+              <b>
+                {myProductPrice?.currency.symbol}
+                {`${Math.ceil(myProductPrice?.amount!).toFixed(2)}`}
+                <br />
+              </b>
+            </p>
+          </div>
         </div>
         <div className="box">
           <button

@@ -1,13 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import {
-  
-  NewProduct,
-  Product,
-} from "../../generated/newgenerated/graphql";
-import { RootState } from "../../app/store";
-
-
-
+import { NewProduct, Product } from "../../generated/newgenerated/graphql";
+import { RootState } from "../../store";
 
 export interface CartState {
   cartTotalQuantity: number;
@@ -19,22 +12,22 @@ export interface CartState {
 
 const initialState: CartState = {
   status: "",
-  cartProducts: localStorage.getItem("cartProducts") ? JSON.parse(localStorage.getItem("cartProducts")!) : [],
+  cartProducts: localStorage.getItem("cartProducts")
+    ? JSON.parse(localStorage.getItem("cartProducts")!)
+    : [],
   cartTotalQuantity: 0,
   cartTotalAmount: 0,
   product: [],
 };
 
 export const cartSlice = createSlice({
-  
   name: "cart",
   initialState,
   reducers: {
     addItemToCart: (state, action: PayloadAction<NewProduct>) => {
-
       const itemIndex = state.cartProducts.findIndex(
         (item) => item.id === action.payload.id
-        );
+      );
       if (itemIndex < 0) {
         state.cartProducts.push(action.payload);
       } else {
@@ -53,45 +46,44 @@ export const cartSlice = createSlice({
       state.cartTotalQuantity += 1;
 
       localStorage.setItem("cartProducts", JSON.stringify(state.cartProducts));
-
     },
     quantityDecrement: (state, action) => {
-       const newCart = JSON.parse(JSON.stringify(state.cartProducts));
+      const newCart = JSON.parse(JSON.stringify(state.cartProducts));
 
-       const currentProduct = newCart.findIndex(
-         (item: NewProduct) => item.id === action.payload
-       );
-       const currentQuantity = state.cartProducts[currentProduct].productTotalQuantity;
-       if(currentQuantity > 1){
-         state.cartProducts[currentProduct].productTotalQuantity -= 1;
-
-      }else if(currentQuantity === 1){
+      const currentProduct = newCart.findIndex(
+        (item: NewProduct) => item.id === action.payload
+      );
+      const currentQuantity =
+        state.cartProducts[currentProduct].productTotalQuantity;
+      if (currentQuantity > 1) {
+        state.cartProducts[currentProduct].productTotalQuantity -= 1;
+      } else if (currentQuantity === 1) {
         const newCartProducts = state.cartProducts.filter(
-          item => item.id !== action.payload
+          (item) => item.id !== action.payload
         );
-        state.cartProducts = newCartProducts
+        state.cartProducts = newCartProducts;
       }
       state.cartTotalQuantity -= 1;
       localStorage.setItem("cartProducts", JSON.stringify(state.cartProducts));
-
-
     },
     modifyCartItemQuantity: (state, action) => {
+      let { total, quantity } = state.cartProducts.reduce(
+        (cartTotal, cartProduct) => {
+          const { prices, productTotalQuantity } = cartProduct;
+          const currentPrice = prices.find(
+            (item) => item.currency.label === action.payload
+          );
+          const itemTotal = currentPrice?.amount! * productTotalQuantity;
 
-      let {total, quantity}=state.cartProducts.reduce((cartTotal, cartProduct)=>{
-        const {prices ,productTotalQuantity} = cartProduct;
-        const currentPrice = prices.find(item=> item.currency.label ===  action.payload)
-        const itemTotal = currentPrice?.amount! * productTotalQuantity;
+          cartTotal.total += itemTotal;
+          cartTotal.quantity += productTotalQuantity;
 
-        cartTotal.total += itemTotal;
-        cartTotal.quantity += productTotalQuantity;
-
-        return cartTotal;
-      },
-      {
-        total:0,
-        quantity: 0,
-      }
+          return cartTotal;
+        },
+        {
+          total: 0,
+          quantity: 0,
+        }
       );
       state.cartTotalAmount = total;
       state.cartTotalQuantity = quantity;
@@ -99,12 +91,17 @@ export const cartSlice = createSlice({
     checkOutCart: (state, action) => {
       state.cartProducts = [];
       localStorage.removeItem("cartProducts");
-    }
+    },
   },
 });
 
 export const selectCartState = (state: RootState) => state.shopCart;
 
-export const { addItemToCart,checkOutCart, quantityIncrement, quantityDecrement,modifyCartItemQuantity } =
-  cartSlice.actions;
+export const {
+  addItemToCart,
+  checkOutCart,
+  quantityIncrement,
+  quantityDecrement,
+  modifyCartItemQuantity,
+} = cartSlice.actions;
 export default cartSlice.reducer;

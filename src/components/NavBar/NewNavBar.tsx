@@ -1,31 +1,31 @@
 import React, { useEffect, useState } from "react";
-import { useAppSelector, useAppDispatch } from "../../app/hooks";
-import { selectCategory } from "../../features/categories/categorySlice";
+import { useAppSelector, useAppDispatch } from "../../hooks";
+import { selectCategory } from "../../slices/categories/categorySlice";
 import {
   selectCurrency,
   setActiveCurrency,
-  setActiveSymbol
-} from "../../features/currency/currencySlice";
+  setActiveSymbol,
+} from "../../slices/currency/currencySlice";
 import {
   useFetchAllCategoriesQuery,
   useFetchAllCurrenciesQuery,
 } from "../../generated/newgenerated/graphql";
-import { updateActiveCategory } from "../../features/categories/categorySlice";
+import { updateActiveCategory } from "../../slices/categories/categorySlice";
 import classes from "./MyNavBar.module.css";
 import Cart from "../Assests/Cart.png";
 import {
   selectCartState,
   modifyCartItemQuantity,
-} from "../../features/cart/cartSlice";
+} from "../../slices/cart/cartSlice";
 import MiniCart from "../Cart/MiniCart";
-import { Link, useLocation } from "react-router-dom";
-import { setActiveProductId } from "../../features/products/productSlice";
-import ShopLogo from '../Assests/VSF.png'
+import { Link } from "react-router-dom";
+// import { setActiveProductId } from "../../slices/products/productSlice";
+import ShopLogo from "../Assests/VSF.png";
 const NewNavbar: React.FC = () => {
   const myCategoriesState = useAppSelector(selectCategory);
   const myCurrenciesState = useAppSelector(selectCurrency);
   const myCartState = useAppSelector(selectCartState);
-  const [currencyOpened, setCurrencyOpened] = useState(false);
+  // const [currencyOpened, setCurrencyOpened] = useState(false);
   const [isCartOpened, setIsCartOpened] = useState(false);
   const dispatch = useAppDispatch();
 
@@ -33,14 +33,14 @@ const NewNavbar: React.FC = () => {
     dispatch(modifyCartItemQuantity(myCurrenciesState.activeCurrency));
   }, [dispatch, myCartState, myCurrenciesState.activeCurrency]);
 
-  const handleCurrencySwitcher = () => {
-    setCurrencyOpened((prevState) => !prevState);
-  };
+  // const handleCurrencySwitcher = () => {
+  //   setCurrencyOpened((prevState) => !prevState);
+  // };
   const showMiniCart = () => {
     setIsCartOpened((prevState) => !prevState);
   };
-  const location = useLocation();
-  const productIdFromLocation = location.pathname.split("/")[2];
+  // const location = useLocation();
+  // const productIdFromLocation = location.pathname.split("/")[2];
 
   const {
     data: currencyData,
@@ -65,7 +65,9 @@ const NewNavbar: React.FC = () => {
 
   const handleCurrency = (e: any) => {
     dispatch(setActiveCurrency(e.target.value));
-    const myCurrency = currencyData.currencies?.find(c=> c?.label===e.target.value);
+    const myCurrency = currencyData.currencies?.find(
+      (c) => c?.label === e.target.value
+    );
     dispatch(setActiveSymbol(myCurrency?.symbol!));
   };
   const myCartProducts = myCartState.cartProducts;
@@ -83,29 +85,42 @@ const NewNavbar: React.FC = () => {
                   style={{ textDecoration: "none", color: "inherit" }}
                   onClick={() => {
                     dispatch(updateActiveCategory(category.name!));
-                    if(isCartOpened){showMiniCart();}
+                    if (isCartOpened) {
+                      showMiniCart();
+                    }
                   }}
                 >
-                  <div className={`${classes.CategoryItem} ${myCategoriesState.activeCategory === category.name ? classes.CategoryItemActive : ''}`}>
+                  <div
+                    className={`${classes.CategoryItem} ${
+                      myCategoriesState.activeCategory === category.name
+                        ? classes.CategoryItemActive
+                        : ""
+                    }`}
+                  >
                     {category.name?.toUpperCase()}
                   </div>
                 </Link>
- 
               )
           )}
       </div>
       <div>
-        <Link to={'/all'}>
-        <img src={ShopLogo} alt='Website Logo' style={{width:'28px', height: '26px', position:'absolute', left:'49%', top:"30%"}}/>
+        <Link to={"/all"}>
+          <img
+            src={ShopLogo}
+            alt="Website Logo"
+            style={{
+              width: "28px",
+              height: "26px",
+              position: "absolute",
+              left: "49%",
+              top: "30%",
+            }}
+          />
         </Link>
       </div>
 
       <div className={classes.misc}>
-        <select
-          className={classes.currency}
-          //   value={myCurrenciesState.activeCurrency}
-          onChange={handleCurrency}
-        >
+        <select className={classes.currency} onChange={handleCurrency}>
           {!!currencyData?.currencies &&
             currencyData.currencies.map(
               (currency, i) =>
